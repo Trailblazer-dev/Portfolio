@@ -1,0 +1,44 @@
+import { AlignJustify } from 'lucide-react'
+import Logo from '../assets/Logo.png'
+import { header } from '../constraints/constraint'
+import { useState } from 'react';
+
+const Header = () => {
+    const [showMenu, setShowMenu] = useState(false);
+    const handleClick = () => {
+        setShowMenu(!showMenu);
+        // set timeout to remove the menu after 5 seconds
+        setTimeout(() => {
+            setShowMenu(false);
+        }, 5000);
+    }
+  return (
+    <header className='fixed top-0 left-0 w-full shadow-lightdawn/10 shadow-sm z-10 backdrop-blur-xl'>
+        <div className='relative mx-auto flex z-20 w-[80%]  bg-lightdawn/5 rounded-lg p-2 justify-between md:justify-between md:w-[90%]'>
+            <div className="md:w-2/5">
+                <a href="#"  rel="noopener noreferrer">
+                    <img src={Logo} alt="logo"
+                    width={24}
+                    height={24}
+                    />
+                </a>
+            </div>
+            <div className={`md:w-3/5 transition-all ease-in-out duration-300 delay-150 ${showMenu ? 'absolute top-[2.4rem] bg-dawn w-full left-0 rounded-lg z-100 backdrop-blur-2xl shadow-sm shadow-lightdawn/10':'hidden'} md:flex`}>
+            
+                <ul className="flex flex-col md:flex-row items-center md:justify-between md:w-full gap-2 md:gap-0">
+                    {header.map((item,index)=>(
+                        <li className="border-t border-lightdawn/20  w-full py-2 md:border-0 md:w-auto md:py-0" key={index}>
+                            <a href={`#${item.id}`} className='text-title/50 hover:text-lightdawn/50 hover:font-bold pl-4 md:pl-0'>
+                                {item.title}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+            <AlignJustify className='text-title/50 cursor-pointer hover:font-bold hover:text-lightdawn/50 md:hidden' onClick={handleClick}/>
+        </div>
+    </header>
+  )
+}
+
+export default Header

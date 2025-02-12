@@ -1,3 +1,5 @@
+import Header from "./components/Header"
+import Hero from "./components/Hero"
 
 
 function App() {
@@ -5,10 +7,10 @@ function App() {
 
   return (
     <>
-      <div className="text-xl font-bold">
-        Hello world
-      </div>
-   
+    <div>
+      <Header />
+      <Hero />
+    </div>
     </>
   )
 }

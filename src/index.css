@@ -1,1 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
 @import "tailwindcss";
+
+@theme{
+    --font-Rale: "Raleway", serif;
+
+    --color-dawn:#090E16;
+    --color-lightdawn:#7B4AE2;
+    --color-title:#FFFFFF;
+    --breakpoint-xmd:870px;
+}
+body{
+    background-color: #090E16;
+    @apply font-Rale;
+}
+

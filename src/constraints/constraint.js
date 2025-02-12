@@ -1,17 +1,17 @@
 import LinkedIn from '../assets/icons/linkedin.png';
 import Github from '../assets/icons/github.png';
 import Email from '../assets/icons/email.png';
-import HeroImg from '../assets/images/hero.png';
+import HeroImg from '../assets/heroImg.png';
 import Code from '../assets/icons/Code.png';
 import Work from '../assets/icons/ProjectsIcon.svg';
 import Design from '../assets/icons/DesignIcon.svg';
 import Art from '../assets/icons/art.svg';
-import DigitalFinance from '../assets/DigitalFinance.png';
+import DigitalFinance from '../assets/Digital Finance.png';
 import VirtualR from '../assets/VirtualR.png';
-import Perfume from '../assets/Perfume.png';
+import Perfume from '../assets/perfume.png';
 import AI from '../assets/Aichatting.png';
 import Rental from '../assets/rental.png';
-import Coffe from '../assets/coffe.png';
+import Coffe from '../assets/coffee.png';
 import CheeseCake from '../assets/cheesecake.png';
 import Headphone from '../assets/headphone.png';
 import Reacticon from "../assets/tools/React.png";
@@ -63,12 +63,12 @@ export const header=[
 
 export const heroSection={
     caption:"👋 Greetings!",
-    title:"Rich Victor",
+    title:"Rich Kariuki",
     subtitle:"Front-end developer · UI designer",
     icons: [
         {
             icon:LinkedIn,
-            url:"https://www.linkedin.com/in/richvictor/",
+            url:"https://www.linkedin.com/in/rich-victor-emanuel-001165196/",
             alt:"LinkedIn",
             id:1,
 
@@ -283,7 +283,7 @@ export const footer ={
     socials:[
          {
             icon:LinkedIn,
-            url:"https://www.linkedin.com/in/richvictor/",
+            url:"https://www.linkedin.com/in/rich-victor-emanuel-001165196/",
             alt:"LinkedIn",
             id:1,
 
