@@ -8,10 +8,16 @@
     --color-dawn:#090E16;
     --color-lightdawn:#7B4AE2;
     --color-title:#FFFFFF;
-    --breakpoint-xmd:870px;
+    --breakpoint-tablet:55rem;
 }
 body{
     background-color: #090E16;
     @apply font-Rale;
+}
+
+@layer components{
+    .contain{
+        @apply mx-4 md:mx-10 xl:mx-16;
+    }
 }
 

@@ -41,7 +41,7 @@ import CopyIcon from "../assets/CopySimple.png";
 export const header=[
 {
     title:"Home",
-    id:"home"
+    id:"hero"
 },
 {
     title:"About me",
