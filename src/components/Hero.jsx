@@ -76,7 +76,7 @@ const Hero = () => {
         </a>
       </div>
     </div>
-    <div className="contain mb-4 mt-14  md:border-y md:border-lightdawn/10 md:py-8">
+    <div className="contain pb-4 mt-14  md:border-y md:border-lightdawn/10 md:py-8">
       <div className="flex flex-col gap-8 justify-center items-center  md:flex-row  lg:gap-12">
         {ExperienceSection.map((item,index)=>(
           <div className="flex flex-col justify-center items-center border-2 border-lightdawn/50 w-[250px] h-[180px] rounded-2xl even:border-none even:bg-lightdawn/10 hover:shadow-md hover:shadow-title/20" key={index}>
