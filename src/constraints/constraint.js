@@ -102,7 +102,7 @@ export const ExperienceSection =[
     {
         icon:Work,
         years:"1 year as",
-        title:"Works",
+        title:"Work",
     },
     {
         icon:Design,

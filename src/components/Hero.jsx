@@ -1,5 +1,5 @@
 import Button from "./Button";
-import { heroSection } from "../constraints/constraint";
+import { ExperienceSection, ExperienceSection2, heroSection } from "../constraints/constraint";
 import whatapp from "../assets/WhatsappLogo.png";
 import { ArrowDownToLineIcon } from "lucide-react";
 import FigmaIcon from "../assets/icons/Figma.png";
@@ -8,13 +8,14 @@ import TypescriptIcon from "../assets/icons/typescript.png";
 
 const Hero = () => {
   return (
+    <>
     <div className="contain mt-[4rem] flex flex-col md:flex-row items-center justify-center md:gap-4 md:justify-between md:mt-[6rem] ">
       <div className="flex flex-col flex-wrap mb-4 md:w-3/10 md:justify-start" id="hero">
-        <Button className="mb-4 md:text-lg">{heroSection.caption}</Button>
-        <h1 className="text-title font-bold text-4xl md:break-words md:text-6xl md:mb-4">
+        <Button className="mb-4 md:text-lg select-none">{heroSection.caption}</Button>
+        <h1 className="text-title font-bold text-4xl md:break-words md:text-6xl md:mb-4 select-none">
           {heroSection.title}
         </h1>
-        <p className="text-title/50 flex mb-4 md:textlg">{heroSection.subtitle}</p>
+        <p className="text-title/50 flex mb-4 md:textlg select-none">{heroSection.subtitle}</p>
         <div className="flex items-center gap-4 mb-4">
           {heroSection.icons.map((icon) => (
             <div className="hover:animate-bounce" key={icon.id}>
@@ -75,6 +76,37 @@ const Hero = () => {
         </a>
       </div>
     </div>
+    <div className="contain mb-4 mt-14  md:border-y md:border-lightdawn/10 md:py-8">
+      <div className="flex flex-col gap-8 justify-center items-center  md:flex-row  lg:gap-12">
+        {ExperienceSection.map((item,index)=>(
+          <div className="flex flex-col justify-center items-center border-2 border-lightdawn/50 w-[250px] h-[180px] rounded-2xl even:border-none even:bg-lightdawn/10 hover:shadow-md hover:shadow-title/20" key={index}>
+            <div className="flex items-center justify-center ">
+              <img src={item.icon} alt="icon" className="w-[64px] " />
+            </div>
+            <p className=" text-title select-none">
+              {item.years}
+            </p>
+            <h2 className="text-title font-semibold text-xl select-none">
+              {item.title}
+            </h2>
+          </div>
+        ))}
+      </div>
+      <div className="hidden md:flex justify-around items-center bg-lightdawn/10 mt-8 px-6 py-2.5 w-fit mx-auto rounded-xl gap-12 lg:gap-20">
+        {ExperienceSection2.map((item,index)=>(
+          <div className="flex flex-col items-center justify-center text-lightdawn tablet:px-4 lg:px-6 select-none" key={index}>
+            <p className="">
+              {item.subtitle}
+            </p>
+            <h2 className="text-3xl font-semibold select-none">
+              {item.title}
+            </h2>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    </>
   );
 };
 
