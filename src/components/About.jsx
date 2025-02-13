@@ -11,13 +11,13 @@ const About = () => {
   return (
     <div id="about" className="contain flex flex-col justify-center items-center gap-4 py-10 md:flex-row lg:gap-6">
         <div className="flex justify-center items-center mb-4 p-4 md:w-1/2">
-            <img src={about.img} alt="profile" className="w-[250px] h-[250px]  md:w-[360px] md:h-[360px] z-10" />
+            <img src={about.img} alt="profile" className="w-[250px] h-[250px]  md:w-[360px] md:h-[360px] rounded-full border-lightdawn border-2 shadow- shadow-lightdawn inset-1" />
         </div>
         <div className="flex flex-col gap-4 md:w-1/2">
             <Button swit={true} className={`px-4 font-bold`}>
                 {about.icon}
             </Button>
-            <h1 className="text-title font-bold text-2xl break-words pr-[20%]">
+            <h1 className="text-title font-bold text-2xl break-words pr-[20%] lg:text-3xl xl:text-4xl">
                 {
                     about.name
                 }
