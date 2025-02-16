@@ -156,7 +156,7 @@ export const about =
     ]
   };
 
-export const portfolio = [
+export const portfolio = 
   {
     icon: "🔗 Portfolio",
     title: "Works and projects",
@@ -257,8 +257,7 @@ export const portfolio = [
       },
     ],
     more: "See more projects on github",
-  },
-];
+  };
 
 export const skills = {
   icon: "🧑‍💻 Skills · Experiences",

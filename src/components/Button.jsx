@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 const Button = ({children,className, swit}) => {
   let background = swit;
   return (
-    <div className={`${background ? 'bg-lightdawn/10':''} text-lightdawn w-fit h-fit px-2 py-1 rounded-md ${className}`}>
+    <div className={`${background ? 'bg-lightdawn/10':''} text-lightdawn w-fit h-fit px-2 py-1 rounded-md ${className} hover:cursor-pointer`}>
         {children}
 
     </div>
