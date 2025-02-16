@@ -25,7 +25,7 @@ const Portfolio = () => {
         },
       },
     ],
-    beforeChange: (current, next) => {
+    beforeChange: (current) => {
       // Remove focus from elements in the current slide
       const currentSlide = sliderRef.current.innerSlider.list.querySelector(
         `[data-index="${current}"]`
@@ -69,7 +69,7 @@ const Portfolio = () => {
         },
       },
     ],
-    beforeChange: (current, next) => {
+    beforeChange: (current) => {
       // Remove focus from elements in the current slide
       const currentSlide = sliderRef.current.innerSlider.list.querySelector(
         `[data-index="${current}"]`
