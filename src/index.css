@@ -26,6 +26,7 @@ body{
         @apply text-title font-bold text-2xl lg:text-3xl xl:text-4xl;
     }
 }
+/* portfolio components on top of project */
 .top .slick-list .slick-track{
     @apply flex flex-row gap-2 tablet:gap-4 lg:gap-6;
 }
@@ -33,11 +34,11 @@ body{
 .slick-slider > button{
     @apply hidden;
 }
-
-.bt .slick-list .slick-track{
+/* portfolio components projects */
+.bt .slick-list .slick-track,.st .slick-list .slick-track{
     @apply  gap-2 flex;
 }
-.bt .slick-slider{
+.bt .slick-slider,.st .slick-slider{
     @apply w-[300px] xs:w-[400px] sm:w-[600px] flex mx-auto justify-self-center;
 }
 
@@ -49,6 +50,10 @@ body{
 }
 .bt .slick-prev:before, .bt .slick-next:before{
     @apply flex  text-[32px];
+}
+/* skills components */
+.st .slick-slide {
+    @apply w-[32px];
 }
 
 .slick-dots li.slick-active button:before{

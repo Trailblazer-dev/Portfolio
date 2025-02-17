@@ -27,7 +27,7 @@ const Hero = () => {
         </div>
       </div>
       <div className="border-lightdawn/10 relative flex items-center -z-10  justify-center mb-6 md:w-2/5 md:mt-10">
-        <div className="bg-lightdawn/15 absolute w-[180px] h-[180px] rounded-full  blur-sm -top-3 shadow-md shadow-lightdawn md:w-[200px] md:h-[200px] md:-top-[3vh] lg:w-[280px] lg:h-[280px] xl:w-[320px] xl:h-[320px]"></div>
+        <div className="bg-lightdawn/30 absolute w-[180px] h-[180px] rounded-full  blur-sm -top-3 shadow-md shadow-lightdawn md:w-[200px] md:h-[200px] md:-top-[3vh] lg:w-[280px] lg:h-[280px] xl:w-[320px] xl:h-[320px]"></div>
         <div className="mx-auto z-0 md:mx-0">
           <img
             src={heroSection.Image}

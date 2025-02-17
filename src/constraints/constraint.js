@@ -34,7 +34,6 @@ import Mysqlicon from "../assets/tools/mysql.png";
 import Postgresqlicon from "../assets/tools/Union.png";
 import MongoDBicon from "../assets/tools/leaf.png";
 import Dockericon from "../assets/tools/Docker.png";
-import whatappicon from "../assets/WhatsappLogo.png";
 import Planeicon from "../assets/PaperPlaneTilt.png";
 import CopyIcon from "../assets/CopySimple.png";
 import ProfileImg from "../assets/profile.png";
@@ -293,10 +292,7 @@ export const skills = {
 export const contact = {
   icon: "📬 Contacts",
   title: "Get in touch",
-  whatapp: {
-    icon: whatappicon,
-    text: "Let's talk",
-  },
+  whatapp: "Let's talk",
   email: {
     icon: Planeicon,
     text: "richvictor830@gmail.com",
@@ -305,7 +301,7 @@ export const contact = {
 };
 
 export const footer = {
-  copyright: "Copyright © Rich Kariuki.2025",
+  copyright: "Copyright © Rich Kariuki: 2025",
   socials: [
     {
       icon: LinkedIn,
@@ -318,12 +314,6 @@ export const footer = {
       url: "https://github.com/Trailblazer-dev",
       alt: "Github",
       id: 2,
-    },
-    {
-      icon: Email,
-      url: "mailto:richvictor830@gmail.com",
-      alt: "Email",
-      id: 3,
-    },
+    }
   ],
 };
