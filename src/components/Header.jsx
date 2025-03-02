@@ -2,6 +2,8 @@ import { AlignJustify } from 'lucide-react';
 import Logo from '../assets/Logo.png';
 import { header } from '../constraints/constraint';
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { ThemeProvider } from '../contexts/theme';
+import DarkModeBtn from './DarkModeBtn';
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -37,9 +39,30 @@ const Header = () => {
     };
   }, [showMenu, handleClickOutside]);
 
+  const [darkMode, setDarkMode] =useState(()=>{
+    const isDark = localStorage.getItem('darkMode');
+    return isDark === "true"
+  })
+
+  const toggleDarkMode = () =>{
+    setDarkMode((prev)=>!prev);
+  }
+
+  useEffect(()=>{
+    localStorage.setItem('darkMode', darkMode.toString());
+    const bodyEl = document.body;
+    if(bodyEl){
+      if(darkMode){
+        bodyEl.classList.add('dark');
+      }else{
+        bodyEl.classList.remove('dark');
+      }
+    }
+  },[darkMode])
+
   return (
     <header className='fixed top-0 left-0 w-full shadow-lightdawn/10 shadow-sm z-10 backdrop-blur-xl'>
-      <div className='relative mx-auto flex z-20 w-[80%] bg-lightdawn/5 rounded-lg p-2 justify-between md:justify-between md:w-[90%]'>
+      <div className='relative mx-auto flex z-20 w-[80%] bg-lightdawn/5 rounded-lg px-2 justify-between md:justify-between md:w-[90%]'>
         <div className="md:w-2/5">
           <a href="#" rel="noopener noreferrer">
             <img src={Logo} alt="logo" width={24} height={24} />
@@ -56,6 +79,9 @@ const Header = () => {
             ))}
           </ul>
         </div>
+        <ThemeProvider value={{darkMode, toggleDarkMode}}>
+      <DarkModeBtn />
+    </ThemeProvider>
         <AlignJustify className='text-title/50 cursor-pointer hover:font-bold hover:text-lightdawn/50 md:hidden' onClick={handleClick} />
       </div>
     </header>

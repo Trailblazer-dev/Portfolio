@@ -4,6 +4,8 @@
 
 @import "tailwindcss" important;
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme{
     --font-Rale: "Raleway", serif;
 
@@ -14,8 +16,7 @@
     --breakpoint-xs:30rem;
 }
 body{
-    background-color: #090E16;
-    @apply font-Rale;
+    @apply font-Rale dark:bg-dawn;
 }
 
 @layer components{
