@@ -1,7 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
 
-
-
 @import "tailwindcss" important;
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -15,18 +13,70 @@
     --breakpoint-tablet:55rem;
     --breakpoint-xs:30rem;
 }
+
+/* Base theme settings */
 body{
-    @apply font-Rale dark:bg-dawn;
+    @apply font-Rale dark:bg-dawn bg-gray-50 text-gray-900 dark:text-white transition-colors duration-300;
+    scroll-behavior: smooth;
+}
+
+/* Scroll styling */
+::-webkit-scrollbar {
+    @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-lightdawn/20 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-lightdawn/40;
+}
+
+/* Focus outline - Better accessibility */
+:focus-visible {
+    @apply outline-none ring-2 ring-lightdawn/70 ring-offset-1 ring-offset-transparent;
+}
+
+/* Selection styling */
+::selection {
+    @apply bg-lightdawn/30 text-white;
 }
 
 @layer components{
     .contain{
-        @apply mx-4 md:mx-10 xl:mx-16;
+        @apply mx-4 md:mx-10 xl:mx-16 lg:max-w-7xl ;
     }
     .head{
         @apply text-title font-bold text-2xl lg:text-3xl xl:text-4xl;
     }
+    
+    .line-clamp-1 {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+    }
+    
+    .line-clamp-2 {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+    }
+    
+    .line-clamp-3 {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+    }
 }
+
 /* portfolio components on top of project */
 .top .slick-list .slick-track{
     @apply flex flex-row gap-2 tablet:gap-4 lg:gap-6;
@@ -35,10 +85,12 @@ body{
 .slick-slider > button{
     @apply hidden;
 }
+
 /* portfolio components projects */
 .bt .slick-list .slick-track,.st .slick-list .slick-track{
-    @apply  gap-2 flex;
+    @apply gap-2 flex py-4;
 }
+
 .bt .slick-slider,.st .slick-slider{
     @apply w-[300px] xs:w-[400px] sm:w-[600px] flex mx-auto justify-self-center;
 }
@@ -46,12 +98,15 @@ body{
 .bt .slick-slider > button{
     @apply w-[44px] ;
 }
+
 .bt .slick-slide {
     @apply w-[260px] sm:w-[600px];
 }
+
 .bt .slick-prev:before, .bt .slick-next:before{
-    @apply flex  text-[32px];
+    @apply flex text-[32px];
 }
+
 /* skills components */
 .st .slick-slide {
     @apply w-[32px];
@@ -64,15 +119,3 @@ body{
 .slick-dots li button:before{
     @apply text-lightdawn;
 }
-/* 
-.slick-slider{
-    @apply w-[200px] sm:w-[400px]  flex;
-}
-.slider-container{
-    @apply w-[250px];
-}
-
-
-.slick-slide{
-    @apply w-[180px] sm:w-[350px];
-} */

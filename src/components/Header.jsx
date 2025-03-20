@@ -1,88 +1,170 @@
-import { AlignJustify } from 'lucide-react';
-import Logo from '../assets/Logo.png';
-import { header } from '../constraints/constraint';
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { ThemeProvider } from '../contexts/theme';
-import DarkModeBtn from './DarkModeBtn';
+import { AlignJustify, X } from "lucide-react";
+import Logo from "../assets/Logo.png";
+import { header } from "../constraints/constraint";
+import { useState, useEffect, useRef, useCallback } from "react";
+import DarkModeBtn from "./DarkModeBtn";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
+  const [activeSection, setActiveSection] = useState("hero");
+  const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef(null);
+
+  // Track scroll position and active section
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+      
+      // Determine which section is currently in view
+      const sections = header.map(item => document.getElementById(item.id));
+      const currentSection = sections.find(section => {
+        if (!section) return false;
+        const rect = section.getBoundingClientRect();
+        return rect.top <= 100 && rect.bottom >= 100;
+      });
+      
+      if (currentSection) {
+        setActiveSection(currentSection.id);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check initial position
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleClick = () => {
     setShowMenu(!showMenu);
-    // set timeout to remove the menu after 5 seconds
-    setTimeout(() => {
-      setShowMenu(false);
-    }, 15000);
+    // Reduce timeout for better UX
+    if (!showMenu) {
+      setTimeout(() => {
+        setShowMenu(false);
+      }, 5000);
+    }
   };
-// this function will close the menu when clicked on the menu item
+
   const handleClose = () => {
     setShowMenu(false);
   };
-// this function will close the menu when clicked outside the menu
-  const handleClickOutside = useCallback((event) => {
-    if (menuRef.current && !menuRef.current.contains(event.target)) {
-      handleClose();
-    }
-  }, [menuRef]);
-// this will add event listener to the document when the menu is open
+
+  const handleClickOutside = useCallback(
+    (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        handleClose();
+      }
+    },
+    [menuRef]
+  );
+
   useEffect(() => {
     if (showMenu) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
+      // Add Escape key support
+      const handleEscape = (e) => {
+        if (e.key === 'Escape') handleClose();
+      };
+      document.addEventListener("keydown", handleEscape);
+      
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+        document.removeEventListener("keydown", handleEscape);
+      };
     }
-
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showMenu, handleClickOutside]);
 
-  const [darkMode, setDarkMode] =useState(()=>{
-    const isDark = localStorage.getItem('darkMode');
-    return isDark === "true"
-  })
-
-  const toggleDarkMode = () =>{
-    setDarkMode((prev)=>!prev);
-  }
-
-  useEffect(()=>{
-    localStorage.setItem('darkMode', darkMode.toString());
-    const bodyEl = document.body;
-    if(bodyEl){
-      if(darkMode){
-        bodyEl.classList.add('dark');
-      }else{
-        bodyEl.classList.remove('dark');
-      }
-    }
-  },[darkMode])
-
   return (
-    <header className='fixed top-0 left-0 w-full shadow-lightdawn/10 shadow-sm z-10 backdrop-blur-xl'>
-      <div className='relative mx-auto flex z-20 w-[80%] bg-lightdawn/5 rounded-lg px-2 justify-between md:justify-between md:w-[90%]'>
+    <header 
+      className={`fixed top-0 left-0 w-full z-30 transition-all duration-300 ${
+        scrolled 
+          ? "bg-dawn/80 backdrop-blur-xl shadow-md py-1" 
+          : "bg-transparent backdrop-blur-sm py-3"
+      }`}
+    >
+      <div className={`relative mx-auto flex z-20 w-[90%] bg-lightdawn/5 rounded-lg px-3 justify-between items-center transition-all duration-300`}>
         <div className="md:w-2/5">
-          <a href="#" rel="noopener noreferrer">
-            <img src={Logo} alt="logo" width={24} height={24} />
+          <a 
+            href="#hero" 
+            className="flex items-center gap-2 py-2 group"
+            aria-label="Logo - Back to top"
+          >
+            <img 
+              src={Logo} 
+              alt="logo" 
+              width={24} 
+              height={24}
+              className="transition-all duration-300"
+            />
+            <span className="text-lightdawn font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">Rich K.</span>
           </a>
         </div>
-        <div ref={menuRef} className={`md:w-3/5 transition-all ease-in-out duration-300 delay-150 ${showMenu ? 'absolute top-[2.4rem] bg-dawn w-full left-0 rounded-lg z-100 backdrop-blur-2xl shadow-sm shadow-lightdawn/10' : 'hidden'} md:flex`}>
-          <ul className="flex flex-col md:flex-row items-center md:justify-between md:w-full gap-2 md:gap-0">
+        
+        {/* Mobile menu backdrop - darker and more opaque */}
+        {showMenu && (
+          <div 
+            className="fixed inset-0 bg-black/80 md:hidden z-20"
+            aria-hidden="true"
+            onClick={handleClose} // Close menu when clicking backdrop
+          />
+        )}
+        
+        {/* Mobile menu with improved visibility */}
+        <div
+          ref={menuRef}
+          className={`md:w-3/5 transition-all ease-in-out duration-300 ${
+            showMenu
+              ? "fixed top-[4rem] inset-x-4 bg-dawn border-2 border-lightdawn/20 rounded-lg z-40 shadow-xl py-4 max-h-[80vh] overflow-y-auto"
+              : "hidden"
+          } md:flex md:py-0 md:static md:bg-transparent md:border-0 md:shadow-none md:max-h-none md:overflow-visible`}
+          role="navigation"
+        >
+          <ul className="flex flex-col md:flex-row items-center md:justify-end md:pr-4 md:w-full gap-3 md:gap-6">
             {header.map((item, index) => (
-              <li className="border-t border-lightdawn/20 w-full py-2 md:border-0 md:w-auto md:py-0" key={index}>
-                <a href={`#${item.id}`} className='text-title/50 hover:text-lightdawn/50 hover:font-bold pl-4 md:pl-0' onClick={handleClose}>
+              <li
+                className="w-full md:w-auto"
+                key={index}
+              >
+                <a
+                  href={`#${item.id}`}
+                  className={`block px-6 py-3 md:px-0 md:py-0 transition-colors relative ${
+                    index !== 0 && showMenu ? "border-t border-lightdawn/20 md:border-0 mt-1 pt-3 md:pt-0 md:mt-0" : ""
+                  } ${
+                    activeSection === item.id 
+                      ? "text-lightdawn font-semibold" 
+                      : "text-title/80 hover:text-lightdawn"
+                  }`}
+                  onClick={handleClose}
+                  aria-current={activeSection === item.id ? "page" : undefined}
+                >
                   {item.title}
+                  {/* Active indicator */}
+                  {activeSection === item.id && (
+                    <span className="absolute -bottom-1 left-6 right-6 md:left-0 md:right-0 h-0.5 bg-lightdawn rounded-full" />
+                  )}
                 </a>
               </li>
             ))}
           </ul>
         </div>
-        <ThemeProvider value={{darkMode, toggleDarkMode}}>
-      <DarkModeBtn />
-    </ThemeProvider>
-        <AlignJustify className='text-title/50 cursor-pointer hover:font-bold hover:text-lightdawn/50 md:hidden' onClick={handleClick} />
+        
+        <div className="flex items-center gap-4 z-30">
+          <DarkModeBtn />
+          <button
+            className={`text-title/70 hover:text-lightdawn md:hidden focus:outline-none focus:ring-2 focus:ring-lightdawn/50 rounded-md p-2 ${showMenu ? 'bg-lightdawn/20' : ''}`}
+            onClick={handleClick}
+            aria-expanded={showMenu}
+            aria-label={showMenu ? "Close menu" : "Open menu"}
+          >
+            {showMenu ? (
+              <X className="h-6 w-6 text-lightdawn" />
+            ) : (
+              <AlignJustify className="h-6 w-6" />
+            )}
+          </button>
+        </div>
       </div>
     </header>
   );

@@ -1,52 +1,16 @@
+import { useState, useRef } from "react";
 import { portfolio } from "../constraints/constraint";
 import Button from "./Button";
-
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import { useRef } from "react";
+import { motion } from "framer-motion";
+import { ExternalLink, Github } from "lucide-react";
 
 const Portfolio = () => {
   const sliderRef = useRef(null);
+  const [activeFilter, setActiveFilter] = useState("all");
 
-  const settings1 = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
-    responsive: [
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
-        },
-      },
-    ],
-    beforeChange: (current) => {
-      // Remove focus from elements in the current slide
-      const currentSlide = sliderRef.current.innerSlider.list.querySelector(
-        `[data-index="${current}"]`
-      );
-      if (currentSlide) {
-        currentSlide.querySelectorAll("button, a").forEach((el) => el.blur());
-      }
-    },
-    afterChange: (current) => {
-      // Optionally, set focus to the first focusable element in the new slide
-      const newSlide = sliderRef.current.innerSlider.list.querySelector(
-        `[data-index="${current}"]`
-      );
-      if (newSlide) {
-        const firstFocusable = newSlide.querySelector("button, a");
-        if (firstFocusable) {
-          firstFocusable.focus();
-        }
-      }
-    },
-  };
 
   const settings2 = {
     dots: true,
@@ -56,7 +20,7 @@ const Portfolio = () => {
     slidesToScroll: 1,
     centerMode: true,
     centerPadding: "0px",
-    initialSlide: 2,
+    initialSlide: 0,
     responsive: [
       {
         breakpoint: 640,
@@ -70,8 +34,8 @@ const Portfolio = () => {
       },
     ],
     beforeChange: (current) => {
-      // Remove focus from elements in the current slide
-      const currentSlide = sliderRef.current.innerSlider.list.querySelector(
+      // Same focus handling as above
+      const currentSlide = sliderRef.current?.innerSlider.list.querySelector(
         `[data-index="${current}"]`
       );
       if (currentSlide) {
@@ -79,8 +43,7 @@ const Portfolio = () => {
       }
     },
     afterChange: (current) => {
-      // Optionally, set focus to the first focusable element in the new slide
-      const newSlide = sliderRef.current.innerSlider.list.querySelector(
+      const newSlide = sliderRef.current?.innerSlider.list.querySelector(
         `[data-index="${current}"]`
       );
       if (newSlide) {
@@ -92,113 +55,223 @@ const Portfolio = () => {
     },
   };
 
+  // Filter function for projects
+  const filterProjects = (projects) => {
+    if (activeFilter === "all") return projects;
+    return projects.filter(project => 
+      project.cta1.toLowerCase() === activeFilter.toLowerCase() ||
+      project.cta2.toLowerCase() === activeFilter.toLowerCase()
+    );
+  };
+
+  // Extract unique technologies from projects
+  const uniqueTechnologies = ["all", ...new Set([
+    ...portfolio.projects.map(p => p.cta1.toLowerCase()),
+    ...portfolio.projects.map(p => p.cta2.toLowerCase())
+  ])];
+
+  const projectContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const projectItemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { 
+      y: 0, 
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 260,
+        damping: 20
+      }
+    }
+  };
+
+  // Get filtered projects
+  const filteredProjects = filterProjects(portfolio.projects);
+
   return (
     <div id="project" className="contain pt-16 overflow-x-hidden mb-10">
-      <Button swit={true} className={`px-4 mb-6`}>
-        {portfolio.icon}
-      </Button>
-      <div className="flex items-center justify-between flex-col  tablet:flex-row mb-8">
-        <h1 className="head mb-10 tablet:mb-0 tablet:w-2/5 lg:w-1/2 select-none cursor-pointer">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="flex flex-col gap-2"
+      >
+        <Button swit={true} className="px-4 mb-4">
+          {portfolio.icon}
+        </Button>
+        <motion.h1 
+          className="head mb-8 select-none cursor-pointer"
+          whileHover={{ scale: 1.02 }}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
+        >
           {portfolio.title}
-        </h1>
-        {/* 3 buttons */}
-        <div className="top gap-4 relative w-full tablet:w-3/5 md:justify-end lg:w-1/2 mb-4 py-4">
-          <Slider ref={sliderRef} {...settings1}>
-            {portfolio.container.map((item) => (
-              <div
-                key={item.id}
-                className="flex flex-nowrap justify-center items-center gap-2 sm:gap-4 lg:gap-2 border-2 border-lightdawn/50  rounded-2xl even:border-none even:bg-lightdawn/10 px-2 py-2 xs:px-4 xs:py-2 lg:px-2 cursor-pointer hover:scale-105 my-8"
-              >
-                <img
-                  src={item.icon}
-                  alt="icon"
-                  className="w-[20px] sm:w-[24px] tablet:w-[20px] lg:w-[22px]"
-                />
-                <h2 className="text-sm text-lightdawn/50 font-semibold sm:text-lg md:text-base xl:text-lg">
-                  {item.title}
-                </h2>
-              </div>
-            ))}
-          </Slider>
-        </div>
-      </div>
-      {/* small screen from tablet */}
-      <div className="bt tablet:hidden flex justify-items-center items-center my-10 ">
-        <Slider ref={sliderRef} {...settings2}>
-          {portfolio.projects.map((project) => (
-            <div
-              key={project.id}
-              className="border-2 border-lightdawn/50 even:bg-lightdawn/10 even:border-none rounded-lg p-3 w-[260px] h-[285px] mx-auto flex flex-col justify-self-center "
-            >
-              <div className="flex flex-col justify-center mb-4">
-                <h2 className="text-title font-semibold mb-2 hover:cursor-pointer select-none">
-                  {project.title}
-                </h2>
-                <p className="text-title/60 text-sm hover:cursor-pointer select-none">
-                  {project.descrption}
-                </p>
-              </div>
-              <div className="flex gap-2 mb-4 font-semibold">
-                <Button swit={true} className="hover:text-title hover:bg-lightdawn">
-                  {project.cta1}
-                </Button>
+        </motion.h1>
+      </motion.div>
 
-                <Button swit={true} className="hover:text-title hover:bg-lightdawn">
-                  {project.cta2}
-                </Button>
-              </div>
-              <div className="relative rounded-md overflow-hidden flex justify-center items-center group">
-                <a
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="cursor-pointer"
-                >
-                  <img src={project.img} alt={project.title} className=""/>
-                  <div className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span className="text-white text-sm">Click to visit the site</span>
+      {/* Filter options for desktop */}
+      <div className="hidden sm:flex flex-wrap gap-3 mb-8">
+        {uniqueTechnologies.map((tech, idx) => (
+          <motion.div
+            key={idx}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Button
+              as="button"
+              onClick={() => setActiveFilter(tech)}
+              className={`px-3 py-1.5 rounded-full text-sm font-medium ${
+                activeFilter === tech
+                  ? "bg-lightdawn text-white"
+                  : "hover:bg-lightdawn/20"
+              }`}
+            >
+              {tech.charAt(0).toUpperCase() + tech.slice(1)}
+            </Button>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Filter dropdown for mobile */}
+      <div className="sm:hidden mb-6">
+        <select 
+          value={activeFilter}
+          onChange={(e) => setActiveFilter(e.target.value)}
+          className="w-full p-2 rounded-md bg-lightdawn/10 text-lightdawn border-2 border-lightdawn/20 focus:border-lightdawn focus:outline-none"
+          aria-label="Filter projects by technology"
+        >
+          {uniqueTechnologies.map((tech, idx) => (
+            <option key={idx} value={tech}>
+              {tech.charAt(0).toUpperCase() + tech.slice(1)}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Mobile project cards with slider - FIXED: Removed AnimatePresence */}
+      <div className="bt tablet:hidden flex justify-center items-center my-10">
+        <Slider ref={sliderRef} {...settings2} key={activeFilter}>
+          {filteredProjects.map((project) => (
+            <div key={project.id} className="px-2">
+              <motion.div
+                className="border-2 border-lightdawn/50 even:bg-lightdawn/10 even:border-none rounded-lg p-4 h-[320px] mx-auto flex flex-col justify-between"
+                variants={projectItemVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                whileHover={{ y: -5, boxShadow: '0 10px 20px rgba(123, 74, 226, 0.2)' }}
+              >
+                <div>
+                  <h2 className="text-title font-semibold mb-2 text-lg line-clamp-1">
+                    {project.title}
+                  </h2>
+                  <p className="text-title/60 text-sm line-clamp-3 mb-3">
+                    {project.descrption}
+                  </p>
+                  <div className="flex gap-2 mb-4">
+                    <Button swit={true} className="px-3 py-1 text-sm">
+                      {project.cta1}
+                    </Button>
+                    <Button swit={true} className="px-3 py-1 text-sm">
+                      {project.cta2}
+                    </Button>
                   </div>
-                </a>
-              </div>
+                </div>
+                <div className="relative rounded-md overflow-hidden flex justify-center items-center group h-32">
+                  <img 
+                    src={project.img} 
+                    alt={project.title} 
+                    className="object-cover w-full h-full"
+                  />
+                  <div className="absolute inset-0 bg-dawn/80 backdrop-blur-sm flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                    <a
+                      href={project.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-lightdawn px-4 py-2 rounded-full flex items-center gap-2 text-white hover:bg-lightdawn/80 transition-colors"
+                    >
+                      Visit Site <ExternalLink size={16} />
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
             </div>
           ))}
         </Slider>
       </div>
-      {/* large screen from tablet */}
 
-      <div className="hidden  tablet:grid  tablet:grid-cols-3 justify-self-center mt-8 mx-2 gap-4 xl:grid-cols-4 mb-4">
-        {portfolio.projects.map((project) => (
-          <div
+      {/* Desktop project grid - FIXED: Removed AnimatePresence */}
+      <motion.div 
+        className="hidden tablet:grid tablet:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8"
+        variants={projectContainerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
+        key={activeFilter} // Add key to force re-render when filter changes
+      >
+        {filteredProjects.map((project) => (
+          <motion.div
             key={project.id}
-            className="border-2 border-lightdawn/50 even:bg-lightdawn/10 even:border-none rounded-lg p-3 w-[260px] h-[285px]"
+            className="border-2 border-lightdawn/50 even:bg-lightdawn/10 even:border-none rounded-lg p-4 h-[320px] flex flex-col justify-between"
+            variants={projectItemVariants}
+            whileHover={{ y: -5, boxShadow: '0 10px 20px rgba(123, 74, 226, 0.2)' }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
-            <div className="flex flex-col justify-center mb-4">
-              <h2 className="text-title font-semibold mb-2 hover:cursor-pointer select-none">
+            <div>
+              <h2 className="text-title font-semibold mb-2 text-lg truncate">
                 {project.title}
               </h2>
-              <p className="text-title/60 text-sm hover:cursor-pointer select-none">
+              <p className="text-title/60 text-sm line-clamp-3 mb-3">
                 {project.descrption}
               </p>
+              <div className="flex gap-2 flex-wrap mb-4">
+                <Button swit={true} className="px-3 py-1 text-sm">
+                  {project.cta1}
+                </Button>
+                <Button swit={true} className="px-3 py-1 text-sm">
+                  {project.cta2}
+                </Button>
+              </div>
             </div>
-            <div className="flex gap-2 mb-4 font-semibold">
-              <Button swit={true} className="hover:text-title hover:bg-lightdawn">
-                {project.cta1}
-              </Button>
-
-              <Button swit={true} className="hover:text-title hover:bg-lightdawn">
-                {project.cta2}
-              </Button>
+            <div className="relative rounded-md overflow-hidden flex justify-center items-center group h-32">
+              <img 
+                src={project.img} 
+                alt={project.title} 
+                className="object-cover w-full h-full"
+              />
+              <div className="absolute inset-0 bg-dawn/80 backdrop-blur-sm flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-lightdawn px-4 py-2 rounded-full flex items-center gap-2 text-white hover:bg-lightdawn/80 transition-colors"
+                >
+                  Visit Site <ExternalLink size={16} />
+                </a>
+              </div>
             </div>
-            <div className="relative rounded-md overflow-hidden flex justify-center items-center group">
-              <a href={project.url} target="_blank" rel="noopener noreferrer" className="">
-                <img src={project.img} alt={project.title} className=""/>
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <span className="text-white text-sm">Click to visit the site</span>
-                </div>
-              </a>
-            </div>
-          </div>
+          </motion.div>
         ))}
+      </motion.div>
+      
+      <div className="flex justify-center mt-8">
+        <Button 
+          as="a" 
+          href="https://github.com/Trailblazer-dev" 
+          target="_blank"
+          className="flex items-center gap-2 py-2 px-4 mt-4 hover:bg-lightdawn/20"
+        >
+          <Github size={18} />
+          {portfolio.more}
+        </Button>
       </div>
     </div>
   );

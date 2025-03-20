@@ -1,23 +1,136 @@
 import { Moon, Sun } from 'lucide-react'
 import useTheme from '../contexts/theme';
+import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
-const DarkModeBtn = () => {
+const DarkModeBtn = ({ floating = false }) => {
     const {darkMode, toggleDarkMode} = useTheme();
-  return (
-    <button onClick={toggleDarkMode} className={`relative w-20 h-9 flex items-center px-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 shadow-xl `}>
-        <div className={`absolute -left-4 top-1/2 transform -translate-y-1/2 w-7 h-7 rounded-full bg-white flex items-center justify-center ${darkMode ? "translate-x-16" : "translate-x-5"}`}>
-            {darkMode? (
-                <Moon size={20} className='text-blue-700' />
-            ):(
-                <Sun size={20} className='text-yellow-500' />
+    const [isVisible, setIsVisible] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
+    
+    // Check if user has scrolled to contact section for floating button
+    useEffect(() => {
+        if (floating) {
+            const handleScroll = () => {
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                    const rect = contactSection.getBoundingClientRect();
+                    // Show floating button when contact section is in view
+                    setIsVisible(rect.top < window.innerHeight && rect.bottom > 0);
+                }
+            };
+            
+            window.addEventListener('scroll', handleScroll);
+            handleScroll(); // Check initial position
+            
+            return () => window.removeEventListener('scroll', handleScroll);
+        }
+    }, [floating]);
+    
+    // Base classes shared by both versions
+    const baseClasses = "relative flex items-center p-1 rounded-full transition-all duration-300 ease-in-out focus:outline-none";
+    
+    // Classes specific to header version
+    const headerClasses = "w-12 h-6 bg-gradient-to-r from-blue-600 to-purple-600 shadow-md hover:shadow-lightdawn/30 active:scale-95";
+    
+    // Classes specific to floating version
+    const floatingClasses = `w-14 h-14 fixed bottom-6 right-6 z-50 bg-gradient-to-r from-blue-700 to-purple-800 
+        shadow-xl border-2 border-white/20 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`;
+    
+    const finalClasses = `${baseClasses} ${floating ? floatingClasses : headerClasses}`;
+    
+    return (
+        <motion.button 
+            onClick={toggleDarkMode} 
+            className={finalClasses}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            onFocus={() => setIsHovered(true)}
+            onBlur={() => setIsHovered(false)}
+            whileHover={floating ? { scale: 1.1 } : {}}
+            whileTap={{ scale: 0.95 }}
+            aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+            title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+        >
+            {floating ? (
+                // Centered icon for floating version with decoration
+                <motion.div 
+                    className="absolute inset-0 flex items-center justify-center text-white"
+                    initial={false}
+                    animate={{ rotate: darkMode ? 0 : 180 }}
+                    transition={{ duration: 0.5 }}
+                >
+                    {darkMode ? (
+                        <Moon size={24} className="text-white" />
+                    ) : (
+                        <Sun size={24} className="text-white" />
+                    )}
+                    
+                    {/* Decorative elements that appear on hover */}
+                    {isHovered && (
+                        <motion.div 
+                            className="absolute inset-0 pointer-events-none"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                        >
+                            {[...Array(darkMode ? 4 : 8)].map((_, i) => (
+                                <motion.div 
+                                    key={i}
+                                    className={`absolute w-1 h-1 rounded-full ${darkMode ? 'bg-white' : 'bg-yellow-300'}`}
+                                    style={{
+                                        left: `${darkMode ? Math.random() * 100 : 50}%`,
+                                        top: `${darkMode ? Math.random() * 100 : 50}%`,
+                                        transformOrigin: 'center',
+                                        transform: darkMode ? '' : `rotate(${i * 45}deg) translateX(${isHovered ? 18 : 12}px)`
+                                    }}
+                                    animate={{
+                                        scale: darkMode ? [0, 1, 0] : [1, 1.5, 1],
+                                        opacity: darkMode ? [0, 1, 0] : [0.7, 1, 0.7],
+                                    }}
+                                    transition={{
+                                        duration: darkMode ? 1.5 : 2,
+                                        repeat: Infinity,
+                                        delay: i * 0.3
+                                    }}
+                                />
+                            ))}
+                        </motion.div>
+                    )}
+                </motion.div>
+            ) : (
+                // Sliding version for header with improved animation
+                <>
+                    <motion.div 
+                        className={`absolute w-4 h-4 rounded-full flex items-center justify-center shadow-md z-10 ${darkMode ? 'bg-lightdawn' : 'bg-white'}`}
+                        animate={{ 
+                            x: darkMode ? 24 : 0,
+                        }}
+                        transition={{ 
+                            type: "spring", 
+                            stiffness: 300, 
+                            damping: 15 
+                        }}
+                    >
+                        {darkMode ? (
+                            <Moon size={12} className="text-white" />
+                        ) : (
+                            <Sun size={12} className="text-yellow-500" />
+                        )}
+                    </motion.div>
+                    
+                    <div className="flex w-full justify-between items-center px-1 text-white">
+                        <Sun size={10} className="opacity-80" />
+                        <Moon size={10} className="opacity-80" />
+                    </div>
+                </>
             )}
-        </div>
-        <div className="flex  w-full justify-between items-center  text-white font-semibold ">
-            <Sun size={20} />
-            <Moon size={20} />
-        </div>
-    </button>
-  )
+        </motion.button>
+    );
 }
 
-export default DarkModeBtn
+DarkModeBtn.propTypes = {
+    floating: PropTypes.bool,
+};
+
+export default DarkModeBtn;
