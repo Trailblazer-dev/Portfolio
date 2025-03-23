@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { forwardRef } from 'react';
+import useTheme from '../contexts/theme';
 
 // Define the props type explicitly for TypeScript
 /**
@@ -36,8 +37,29 @@ const Button = forwardRef(/** @type {(props: ButtonProps, ref: React.Ref<HTMLEle
     type = 'button' // Default to 'button' type
   } = props;
 
+  const { darkMode } = useTheme();
+  
   const background = swit;
-  const baseClasses = `${background ? 'dark:bg-lightdawn/10 bg-title/80':''} dark:text-lightdawn text-dawn w-fit h-fit px-4 py-2 rounded-md ${className} transition-all duration-300 hover:cursor-pointer focus-visible:ring-2 focus-visible:ring-lightdawn/50 focus-visible:outline-none`;
+  const baseClasses = `${background 
+    ? darkMode 
+      ? 'dark:bg-lightdawn/10'
+      : 'bg-gradient-to-r from-light-accent/20 to-light-secondary/20 hover:from-light-accent/30 hover:to-light-secondary/30 border border-light-accent/10'
+    : ''} 
+    ${darkMode 
+      ? 'dark:text-lightdawn' 
+      : 'text-light-text hover:text-light-accent'
+    } 
+    ${darkMode ? 'text-dawn' : ''} 
+    w-fit h-fit px-4 py-2 rounded-md ${className} transition-all duration-300 hover:cursor-pointer focus-visible:ring-2 
+    ${darkMode 
+      ? 'focus-visible:ring-lightdawn/50' 
+      : 'focus-visible:ring-light-accent/50'
+    } 
+    ${!darkMode && !background 
+      ? 'hover:bg-light-accent/5' 
+      : ''
+    }
+    focus-visible:outline-none`;
   
   // Determine if we should render a button, a div, or an anchor
   if (as === 'button' || onClick || type) {
@@ -79,7 +101,17 @@ const Button = forwardRef(/** @type {(props: ButtonProps, ref: React.Ref<HTMLEle
       onKeyDown={onClick ? (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          onClick(e);
+          // Create a simpler approach that doesn't require type casting
+          onClick({
+            // Pass just the minimal properties needed
+            currentTarget: e.currentTarget,
+            target: e.currentTarget,
+            preventDefault: () => {},
+            stopPropagation: () => {},
+            type: 'click',
+            // Cast to unknown first then to the expected type to avoid TS errors
+            nativeEvent: e.nativeEvent
+          });
         }
       } : undefined}
       aria-label={ariaLabel}

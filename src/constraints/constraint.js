@@ -62,6 +62,7 @@ import MysqliconLight from "../assets/tools2lighttheme/Group 26.png";
 import PostgresqliconLight from "../assets/tools2lighttheme/Union.png";
 import MongoDBiconLight from "../assets/tools2lighttheme/Group 27.png";
 import DockericonLight from "../assets/tools2lighttheme/Docker.png";
+import HeroImgLight from "../assets/heroImg.png"; // Add this if you have a light version
 
 export const header = [
   {
@@ -108,6 +109,7 @@ export const heroSection = {
     },
   ],
   Image: HeroImg,
+  ImageLight: HeroImgLight || HeroImg, // Use light version or fall back to regular
   button1: "Download CV",
   button2: "Let's talk",
 };

@@ -4,12 +4,14 @@ import { header } from "../constraints/constraint";
 import { useState, useEffect, useRef, useCallback } from "react";
 import DarkModeBtn from "./DarkModeBtn";
 import { motion, AnimatePresence } from "framer-motion";
+import useTheme from '../contexts/theme'; // Add this import
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
   const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef(null);
+  const { darkMode } = useTheme(); // Add this line
 
   // Track scroll position and active section
   useEffect(() => {
@@ -108,15 +110,22 @@ const Header = () => {
     <header 
       className={`fixed top-0 left-0 w-full z-30 transition-all duration-500 ${
         scrolled 
-          ? "dark:bg-dawn/90 bg-gray-100/90 backdrop-blur-xl shadow-md py-1" 
-          : "dark:bg-dawn/30 bg-white/10 backdrop-blur-sm py-3"
+          ? darkMode
+            ? "dark:bg-dawn/90 backdrop-blur-xl shadow-md py-1" 
+            : "bg-white/90 backdrop-blur-xl shadow-md py-1 border-b border-light-accent/10"
+          : darkMode
+            ? "dark:bg-dawn/30 backdrop-blur-sm py-3" 
+            : "bg-white/30 backdrop-blur-sm py-3"
       }`}
     >
       <motion.div 
         initial={{ y: -10, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className={`relative mx-auto flex z-20 w-[94%] sm:w-[90%] dark:bg-lightdawn/5 bg-dawn/5 rounded-lg px-3 justify-between items-center transition-all duration-300 ${scrolled ? 'py-2' : 'py-3'}`}
+        className={`relative mx-auto flex z-20 w-[94%] sm:w-[90%] 
+        ${darkMode ? "dark:bg-lightdawn/5" : "bg-white/80"} 
+        rounded-lg px-3 justify-between items-center transition-all duration-300 
+        ${darkMode && scrolled ? 'py-2' : 'py-3'}`}
       >
         <div className="md:w-2/5">
           <motion.a 
@@ -141,7 +150,9 @@ const Header = () => {
         <AnimatePresence>
           {showMenu && (
             <motion.div 
-              className="fixed inset-0 dark:bg-black/80 bg-dawn/60 md:hidden z-20"
+              className={`fixed inset-0 
+              ${darkMode ? "dark:bg-black/80" : "bg-light-accent/20 backdrop-blur-md"} 
+              md:hidden z-20`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -159,7 +170,13 @@ const Header = () => {
               ref={menuRef}
               className={`md:w-3/5 ${
                 showMenu
-                  ? "fixed top-[4rem] inset-x-4 dark:bg-dawn/95 bg-white/95 border-2 dark:border-lightdawn/20 border-dawn/20 rounded-xl z-40 shadow-xl py-5 max-h-[80vh] overflow-y-auto"
+                  ? `fixed top-[4rem] inset-x-4 
+                    ${darkMode 
+                      ? "dark:bg-dawn/95" 
+                      : "bg-white/95 border-light-accent/30"} 
+                    border-2 
+                    ${darkMode ? "dark:border-lightdawn/20" : "border-light-accent/20"} 
+                    rounded-xl z-40 shadow-xl py-5 max-h-[80vh] overflow-y-auto`
                   : "hidden"
               } md:flex md:py-0 md:static md:bg-transparent md:border-0 md:shadow-none md:max-h-none md:overflow-visible`}
               role="navigation"

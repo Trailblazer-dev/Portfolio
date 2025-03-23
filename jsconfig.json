@@ -12,7 +12,11 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "target": "ES2020",
     "moduleResolution": "node",
-    "types": ["react", "react-dom"]
+    "types": ["react", "react-dom"],
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "noImplicitAny": false,
+    "allowJs": true,
+    "skipLibCheck": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

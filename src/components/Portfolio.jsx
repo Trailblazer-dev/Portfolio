@@ -3,15 +3,18 @@ import { portfolio } from "../constraints/constraint";
 import Button from "./Button";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick/lib/slider";
+// Update the import to use the proper typed version
+import Slider from "react-slick";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, Github, ChevronDown, Code2, Palette, FileCode } from "lucide-react";
+import useTheme from '../contexts/theme';
 
 const Portfolio = () => {
   const sliderRef = useRef(null);
   const [activeFilter, setActiveFilter] = useState("all");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const { darkMode } = useTheme();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -154,8 +157,12 @@ const Portfolio = () => {
               onClick={() => setActiveFilter(tech)}
               className={`px-3 py-1.5 rounded-full text-sm font-medium ${
                 activeFilter === tech
-                  ? "dark:bg-lightdawn dark:text-white bg-title text-dawn"
-                  : "dark:hover:bg-lightdawn/20 hover:bg-title/70"
+                  ? darkMode 
+                    ? "dark:bg-lightdawn dark:text-white" 
+                    : "bg-gradient-to-r from-light-accent to-light-secondary text-white"
+                  : darkMode 
+                    ? "dark:hover:bg-lightdawn/20" 
+                    : "hover:bg-gradient-to-r hover:from-light-accent/20 hover:to-light-secondary/20"
               }`}
             >
               {tech.charAt(0).toUpperCase() + tech.slice(1)}
@@ -170,17 +177,31 @@ const Portfolio = () => {
           className="relative z-10"
           initial={false}
           animate={{ 
-            boxShadow: isDropdownOpen ? "0 10px 25px rgba(0, 0, 0, 0.1)" : "0 2px 5px rgba(0, 0, 0, 0.05)"
+            boxShadow: isDropdownOpen 
+              ? darkMode 
+                ? "0 10px 25px rgba(0, 0, 0, 0.1)" 
+                : "0 10px 25px rgba(255, 125, 84, 0.15)"
+              : darkMode
+                ? "0 2px 5px rgba(0, 0, 0, 0.05)"
+                : "0 2px 5px rgba(255, 125, 84, 0.1)"
           }}
         >
           <motion.button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             className={`w-full p-3 rounded-lg flex items-center justify-between
                       ${isDropdownOpen ? "rounded-b-none" : ""}
-                      dark:bg-lightdawn/10 bg-dawn/10 dark:text-lightdawn text-dawn 
-                      border-2 dark:border-lightdawn/30 border-dawn/40
+                      ${darkMode 
+                        ? "dark:bg-lightdawn/10" 
+                        : "bg-gradient-to-r from-light-accent/10 to-light-secondary/10"}
+                      ${darkMode ? "dark:text-lightdawn" : "text-light-text"} 
+                      border-2 
+                      ${darkMode 
+                        ? "dark:border-lightdawn/30" 
+                        : "border-light-accent/30"}
                       transition-all duration-300 cursor-pointer
-                      dark:hover:bg-lightdawn/20 hover:bg-dawn/20 dark:hover:border-lightdawn/50 hover:border-dawn/60`}
+                      ${darkMode 
+                        ? "dark:hover:bg-lightdawn/20 dark:hover:border-lightdawn/50" 
+                        : "hover:bg-gradient-to-r hover:from-light-accent/20 hover:to-light-secondary/20 hover:border-light-accent/60"}`}
             aria-expanded={isDropdownOpen}
             aria-haspopup="listbox"
             aria-labelledby="tech-filter-label"
@@ -264,8 +285,9 @@ const Portfolio = () => {
         </div>
       </div>
 
-      {/* Mobile project cards with slider - FIXED: Removed AnimatePresence */}
+      {/* Mobile project cards with slider */}
       <div className="bt tablet:hidden flex justify-center items-center my-10">
+        {/* @ts-ignore - Suppressing TypeScript error for Slider children */}
         <Slider ref={sliderRef} {...settings2} key={activeFilter}>
           {filteredProjects.map((project) => (
             <div key={project.id} className="px-2">
@@ -316,35 +338,48 @@ const Portfolio = () => {
         </Slider>
       </div>
 
-      {/* Desktop project grid - FIXED: Removed AnimatePresence */}
+      {/* Desktop project grid with enhanced light theme styling */}
       <motion.div 
         className="hidden tablet:grid tablet:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8"
         variants={projectContainerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
-        key={activeFilter} // Add key to force re-render when filter changes
+        key={activeFilter}
       >
         {filteredProjects.map((project) => (
           <motion.div
             key={project.id}
-            className="border-2 dark:border-lightdawn/50 border-title/80 dark:even:bg-lightdawn/10 even:bg-title/80 even:border-none rounded-lg p-4 h-[320px] flex flex-col justify-between"
+            className={`border-2 
+            ${darkMode 
+              ? "dark:border-lightdawn/50 border-title/80" 
+              : "border-light-accent/20"}
+            ${darkMode 
+              ? "dark:even:bg-lightdawn/10 even:bg-title/80 even:border-none" 
+              : "even:bg-gradient-to-br from-light-accent/5 via-light-secondary/5 to-light-tertiary/5 even:border-light-secondary/20"}
+            rounded-lg p-4 h-[320px] flex flex-col justify-between
+            ${!darkMode && "bg-white shadow-sm hover:shadow-lg"}`}
             variants={projectItemVariants}
-            whileHover={{ y: -5, boxShadow: '0 10px 20px rgba(123, 74, 226, 0.2)' }}
+            whileHover={{ 
+              y: -5, 
+              boxShadow: darkMode 
+                ? '0 10px 20px rgba(123, 74, 226, 0.2)' 
+                : 'var(--shadow-light-lg)' 
+            }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
             <div>
-              <h2 className="dark:text-title text-dawn font-semibold mb-2 text-lg truncate">
+              <h2 className="dark:text-title text-light-text font-semibold mb-2 text-lg truncate">
                 {project.title}
               </h2>
-              <p className="dark:text-title/60 text-dawn/80 text-sm line-clamp-3 mb-3">
+              <p className="dark:text-title/60 text-light-text-muted text-sm line-clamp-3 mb-3">
                 {project.descrption}
               </p>
               <div className="flex gap-2 flex-wrap mb-4">
-                <Button swit={true} className="px-3 py-1 text-sm">
+                <Button swit={true} className={`px-3 py-1 text-sm ${!darkMode && "shadow-sm"}`}>
                   {project.cta1}
                 </Button>
-                <Button swit={true} className="px-3 py-1 text-sm">
+                <Button swit={true} className={`px-3 py-1 text-sm ${!darkMode && "shadow-sm"}`}>
                   {project.cta2}
                 </Button>
               </div>
@@ -355,12 +390,20 @@ const Portfolio = () => {
                 alt={project.title} 
                 className="object-cover w-full h-full"
               />
-              <div className="absolute inset-0 dark:bg-dawn/80 bg-lightdawn/60 backdrop-blur-sm flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+              <div className={`absolute inset-0 
+                ${darkMode 
+                  ? "dark:bg-dawn/80" 
+                  : "bg-gradient-to-r from-light-accent/80 to-light-secondary/80"} 
+                backdrop-blur-sm flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-all duration-300`}>
                 <a
                   href={project.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="dark:bg-lightdawn bg-dawn/70 hover:bg-dawn/90 px-4 py-2 rounded-full flex items-center gap-2 text-white dark:hover:bg-lightdawn/80 transition-colors"
+                  className={`
+                    ${darkMode 
+                      ? "dark:bg-lightdawn dark:hover:bg-lightdawn/80" 
+                      : "bg-white hover:bg-light-accent text-light-accent hover:text-white shadow-md"}
+                    px-4 py-2 rounded-full flex items-center gap-2 transition-colors`}
                 >
                   Visit Site <ExternalLink size={16} />
                 </a>

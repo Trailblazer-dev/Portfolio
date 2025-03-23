@@ -4,9 +4,11 @@ import whatapp from "../assets/WhatsappLogo.png";
 import { useState } from "react";
 import { ArrowUp, Check, Copy } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import useTheme from '../contexts/theme';
 
 const Contact = () => {
     const [copySuccess, setCopySuccess] = useState(false);
+    const { darkMode } = useTheme();
 
     const copyToClipboard = () => {
         navigator.clipboard.writeText(contact.email.text);
@@ -34,6 +36,7 @@ const Contact = () => {
             </div>
             
             <div className="flex flex-col gap-6 justify-center items-center sm:flex-row sm:gap-8 my-6">
+                {/* WhatsApp button */}
                 <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.98 }}
@@ -44,7 +47,12 @@ const Contact = () => {
                         href="https://wa.me/+254111250188?text=Hello%20I%20would%20like%20to%20contact%20you"
                         target="_blank"
                         swit={true}
-                        className="flex items-center justify-center outline-2 dark:outline-lightdawn/10 outline-white gap-4 shadow-md dark:shadow-lightdawn/20 shadow-dawn/70 dark:hover:bg-lightdawn/10 hover:bg-dawn/20 hover:text-title group md:gap-6 md:px-6 md:py-3 md:text-lg lg:text-xl"
+                        className={`flex items-center justify-center outline-2 
+                        ${darkMode ? "dark:outline-lightdawn/10" : "outline-light-accent/20"} 
+                        outline-white gap-4 shadow-md 
+                        ${darkMode ? "dark:shadow-lightdawn/20" : "shadow-light-accent/30"} 
+                        ${darkMode ? "dark:hover:bg-lightdawn/10" : "hover:bg-gradient-to-br hover:from-light-accent/20 hover:to-light-secondary/20"} 
+                        hover:text-title group md:gap-6 md:px-6 md:py-3 md:text-lg lg:text-xl`}
                     >
                         <motion.img 
                             src={whatapp} 
@@ -55,16 +63,24 @@ const Contact = () => {
                     </Button>
                 </motion.div>
                 
-                <div className="flex flex-col justify-center items-center gap-2 xs:flex-row dark:bg-lightdawn/5 rounded-lg p-3 dark:hover:bg-lightdawn/10 bg-dawn/20 hover:bg-dawn/40 transition-colors duration-300 group">
+                {/* Email container with consistent shadows */}
+                <div className={`flex flex-col justify-center items-center gap-2 xs:flex-row 
+                ${darkMode 
+                  ? "dark:bg-lightdawn/5 dark:hover:bg-lightdawn/10" 
+                  : "bg-white shadow-md hover:shadow-lg border border-light-accent/20 hover:border-light-accent/40"} 
+                rounded-lg p-3 transition-colors duration-300 group`}>
                     <motion.img
                         src={contact.email.icon}
                         alt="Email Icon"
-                        className="w-[24px] lg:w-[28px] transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[5deg]"
+                        className={`w-[24px] lg:w-[28px] transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[5deg] ${!darkMode && 'filter drop-shadow-sm'}`}
                         whileHover={{ scale: 1.2, rotate: 5 }}
                     />
                     <a
                         href={`mailto:${contact.email.text}`}
-                        className="dark:text-lightdawn/70 dark:hover:text-lightdawn text-title/80 hover:text-title transition-colors duration-300"
+                        className={`${darkMode 
+                          ? "dark:text-lightdawn/70 dark:hover:text-lightdawn" 
+                          : "text-light-text hover:text-light-accent"} 
+                        transition-colors duration-300`}
                     >
                         {contact.email.text}
                     </a>
@@ -118,7 +134,11 @@ const Contact = () => {
             
             <motion.a 
                 href="#hero" 
-                className="flex gap-2 dark:text-title/80 text-dawn/80 dark:hover:text-lightdawn hover:text-title items-center mt-8 px-6 py-2.5 rounded-full dark:hover:bg-lightdawn/10 hover:bg-dawn/40 transition-all duration-300 border dark:border-lightdawn/20 border-dawn/40 group"
+                className={`flex gap-2 
+                ${darkMode 
+                  ? "dark:text-title/80 dark:hover:text-lightdawn dark:hover:bg-lightdawn/10 dark:border-lightdawn/20" 
+                  : "text-light-text/80 hover:text-light-accent hover:bg-light-accent/10 border-light-accent/30"} 
+                items-center mt-8 px-6 py-2.5 rounded-full transition-all duration-300 border group`}
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
             >

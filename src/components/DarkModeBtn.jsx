@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 const DarkModeBtn = ({ floating = false }) => {
-    const {darkMode, toggleDarkMode} = useTheme();
+    const { darkMode, toggleDarkMode } = useTheme(); // Ensure this is properly destructured
     const [isVisible, setIsVisible] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
     
@@ -31,20 +31,21 @@ const DarkModeBtn = ({ floating = false }) => {
     // Base classes shared by both versions
     const baseClasses = "relative flex items-center p-1 rounded-full transition-all duration-300 ease-in-out focus:outline-none";
     
-    // Classes specific to header version - updated for light theme
+    // Enhanced classes for light theme toggle
     const headerClasses = `w-12 h-6 ${darkMode 
         ? "bg-gradient-to-r from-blue-600 to-purple-600" 
-        : "bg-gradient-to-r from-gray-500 to-dawn"} shadow-md ${darkMode 
+        : "bg-gradient-to-r from-light-accent/70 to-light-tertiary/70 border border-light-accent/20"} 
+        shadow-md ${darkMode 
         ? "hover:shadow-lightdawn/30" 
-        : "hover:shadow-dawn/30"} active:scale-95`;
+        : "hover:shadow-light-accent/30"} active:scale-95`;
     
-    // Classes specific to floating version - updated for light theme
+    // Enhanced floating version
     const floatingClasses = `w-14 h-14 fixed bottom-6 right-6 z-50 ${darkMode 
         ? "bg-gradient-to-r from-blue-700 to-purple-800" 
-        : "bg-gradient-to-r from-gray-600 to-dawn"}
-        shadow-xl border-2 ${darkMode 
+        : "bg-gradient-to-r from-light-accent/90 to-light-tertiary/90 border-2 border-white"}
+        shadow-xl ${darkMode 
         ? "border-white/20" 
-        : "border-dawn/40"} ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`;
+        : ""} ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`;
     
     const finalClasses = `${baseClasses} ${floating ? floatingClasses : headerClasses}`;
     
@@ -113,10 +114,14 @@ const DarkModeBtn = ({ floating = false }) => {
                     )}
                 </motion.div>
             ) : (
-                // Sliding version for header with improved animation
+                // Enhanced toggle styling for header version
                 <>
                     <motion.div 
-                        className={`absolute w-4 h-4 rounded-full flex items-center justify-center shadow-md z-10 ${darkMode ? 'bg-lightdawn' : 'bg-white'}`}
+                        className={`absolute w-4 h-4 rounded-full flex items-center justify-center shadow-md z-10 ${
+                            darkMode 
+                              ? 'bg-lightdawn' 
+                              : 'bg-white border border-light-accent/30'
+                        }`}
                         animate={{ 
                             x: darkMode ? 24 : 0,
                         }}
@@ -130,13 +135,21 @@ const DarkModeBtn = ({ floating = false }) => {
                         {darkMode ? (
                             <Moon size={12} className="text-white transition-transform group-hover:scale-110" />
                         ) : (
-                            <Sun size={12} className="text-yellow-500 transition-transform group-hover:scale-110" />
+                            <Sun size={12} className="text-light-tertiary transition-transform group-hover:scale-110" />
                         )}
                     </motion.div>
                     
                     <div className="flex w-full justify-between items-center px-1 text-white">
-                        <Sun size={10} className={`${darkMode ? "opacity-80" : "text-yellow-500 opacity-100"} transition-all hover:scale-125`} />
-                        <Moon size={10} className={`${darkMode ? "opacity-80" : "text-dawn opacity-60"} transition-all hover:scale-125`} />
+                        <Sun size={10} className={`${
+                            darkMode 
+                              ? "opacity-80" 
+                              : "text-light-tertiary opacity-100"
+                        } transition-all hover:scale-125`} />
+                        <Moon size={10} className={`${
+                            darkMode 
+                              ? "opacity-80" 
+                              : "text-dawn/40 opacity-60"
+                        } transition-all hover:scale-125`} />
                     </div>
                 </>
             )}
