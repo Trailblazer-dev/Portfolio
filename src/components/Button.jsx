@@ -42,13 +42,14 @@ const Button = forwardRef(/** @type {(props: ButtonProps, ref: React.Ref<HTMLEle
   const background = swit;
   const baseClasses = `${background 
     ? darkMode 
-      ? 'bg-dark-card border border-lightdawn/20 dark:bg-lightdawn/10'
+      ? 'dark:bg-lightdawn/10'
       : 'bg-gradient-to-r from-light-accent/20 to-light-secondary/20 hover:from-light-accent/30 hover:to-light-secondary/30 border border-light-accent/10'
     : ''} 
     ${darkMode 
-      ? 'text-dark-text hover:text-lightdawn' 
+      ? 'dark:text-lightdawn' 
       : 'text-light-text hover:text-light-accent'
     } 
+    ${darkMode ? 'text-dawn' : ''} 
     w-fit h-fit px-4 py-2 rounded-md ${className} transition-all duration-300 hover:cursor-pointer focus-visible:ring-2 
     ${darkMode 
       ? 'focus-visible:ring-lightdawn/50' 
@@ -56,9 +57,7 @@ const Button = forwardRef(/** @type {(props: ButtonProps, ref: React.Ref<HTMLEle
     } 
     ${!darkMode && !background 
       ? 'hover:bg-light-accent/5' 
-      : darkMode && !background 
-        ? 'hover:bg-lightdawn/5' 
-        : ''
+      : ''
     }
     focus-visible:outline-none`;
   

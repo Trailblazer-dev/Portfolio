@@ -1,19 +1,46 @@
-import { motion } from "framer-motion";
-import useTheme from '../contexts/theme';
+import { motion } from 'framer-motion';
+import Logo from '../assets/Logo.png'; // Adjust path if needed
 
 const LoadingSpinner = () => {
-  const { darkMode } = useTheme();
-  
   return (
-    <div className="flex justify-center items-center min-h-[40vh]">
+    <div className="fixed inset-0 flex items-center justify-center bg-light-background dark:bg-dawn flex-col gap-4 z-50">
       <motion.div
-        className={`w-16 h-16 rounded-full ${darkMode ? 'border-t-lightdawn' : 'border-t-light-accent'} 
-          border-8 border-solid ${darkMode ? 'border-dawn/20' : 'border-gray-100'}`}
-        animate={{ rotate: 360 }}
-        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-        role="status"
-        aria-label="Loading content"
-      />
+        animate={{ 
+          rotate: 360,
+          scale: [1, 1.1, 1]
+        }}
+        transition={{ 
+          rotate: { duration: 1.5, repeat: Infinity, ease: "linear" },
+          scale: { duration: 1.5, repeat: Infinity, ease: "easeInOut" }
+        }}
+        className="relative"
+      >
+        <img src={Logo} alt="Logo" className="w-16 h-16" />
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+        className="text-light-text dark:text-title font-medium text-lg"
+      >
+        Loading Rich's Portfolio...
+      </motion.div>
+
+      <motion.div 
+        className="w-48 h-1 bg-gray-200 dark:bg-dawn/30 rounded-full overflow-hidden mt-4"
+      >
+        <motion.div 
+          className="h-full bg-gradient-to-r from-light-accent to-light-secondary dark:from-lightdawn dark:to-purple-500"
+          initial={{ width: "0%" }}
+          animate={{ width: "100%" }}
+          transition={{
+            duration: 1.8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+      </motion.div>
     </div>
   );
 };

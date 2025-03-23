@@ -4,25 +4,77 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/Logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Rich Kariuki - Frontend Developer and UI Designer portfolio showcasing projects, skills, and experience in React, TypeScript, and UI/UX design." />
-    <meta name="keywords" content="frontend developer, portfolio, UI designer, React, TypeScript, TailwindCSS" />
-    <meta name="author" content="Rich Kariuki" />
-    <meta property="og:title" content="Rich Kariuki - Portfolio" />
-    <meta property="og:description" content="Frontend Developer and UI Designer portfolio" />
-    <meta property="og:image" content="/portfolio-preview.png" />
-    <meta property="og:url" content="https://portfolio.richkariuki.com" />
-    <meta name="twitter:card" content="summary_large_image" />
     <title>Rich's Portfolio</title>
-    <!-- Preload critical fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" />
-    <!-- Font display optimization -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" />
+    <!-- Add base styles to prevent layout shift -->
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Raleway', sans-serif;
+        background-color: #F9FAFC;
+        transition: background-color 0.3s;
+      }
+      
+      @media (prefers-color-scheme: dark) {
+        body {
+          background-color: #121224;
+        }
+      }
+      
+      #root {
+        min-height: 100vh;
+      }
+      
+      .initial-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+    <script>
+      // Immediately unregister any service workers
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for (let registration of registrations) {
+            registration.unregister();
+          }
+        });
+        
+        // Clear all caches
+        if ('caches' in window) {
+          caches.keys().then(function(cacheNames) {
+            cacheNames.forEach(cacheName => caches.delete(cacheName));
+          });
+        }
+      }
+    </script>
+    <!-- Preload the font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
   </head>
   <body>
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:p-2 focus:bg-lightdawn dark:focus:bg-light-accent focus:text-white z-50 m-2 focus:text-base">Skip to content</a>
-    <div id="root"></div>
+    <div id="root">
+      <div class="initial-loader">
+        <svg width="50" height="50" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <style>
+            .spinner {
+              animation: spin 1s linear infinite;
+              transform-origin: center;
+            }
+            @keyframes spin {
+              to { transform: rotate(360deg); }
+            }
+          </style>
+          <circle class="spinner" cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="32" stroke-dashoffset="16" />
+        </svg>
+      </div>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

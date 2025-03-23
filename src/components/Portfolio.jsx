@@ -158,10 +158,10 @@ const Portfolio = () => {
               className={`px-3 py-1.5 rounded-full text-sm font-medium ${
                 activeFilter === tech
                   ? darkMode 
-                    ? "bg-dark-gradient-primary text-white" 
+                    ? "dark:bg-lightdawn dark:text-white" 
                     : "bg-gradient-to-r from-light-accent to-light-secondary text-white"
                   : darkMode 
-                    ? "hover:bg-lightdawn/20" 
+                    ? "dark:hover:bg-lightdawn/20" 
                     : "hover:bg-gradient-to-r hover:from-light-accent/20 hover:to-light-secondary/20"
               }`}
             >
@@ -179,11 +179,11 @@ const Portfolio = () => {
           animate={{ 
             boxShadow: isDropdownOpen 
               ? darkMode 
-                ? "var(--shadow-dark-lg)" 
-                : "var(--shadow-light-lg)"
+                ? "0 10px 25px rgba(0, 0, 0, 0.1)" 
+                : "0 10px 25px rgba(255, 125, 84, 0.15)"
               : darkMode
-                ? "var(--shadow-dark-sm)"
-                : "var(--shadow-light-sm)"
+                ? "0 2px 5px rgba(0, 0, 0, 0.05)"
+                : "0 2px 5px rgba(255, 125, 84, 0.1)"
           }}
         >
           <motion.button
@@ -191,16 +191,16 @@ const Portfolio = () => {
             className={`w-full p-3 rounded-lg flex items-center justify-between
                       ${isDropdownOpen ? "rounded-b-none" : ""}
                       ${darkMode 
-                        ? "bg-dark-card" 
+                        ? "dark:bg-lightdawn/10" 
                         : "bg-gradient-to-r from-light-accent/10 to-light-secondary/10"}
-                      ${darkMode ? "text-dark-text" : "text-light-text"} 
+                      ${darkMode ? "dark:text-lightdawn" : "text-light-text"} 
                       border-2 
                       ${darkMode 
-                        ? "border-lightdawn/30" 
+                        ? "dark:border-lightdawn/30" 
                         : "border-light-accent/30"}
                       transition-all duration-300 cursor-pointer
                       ${darkMode 
-                        ? "hover:bg-lightdawn/20 hover:border-lightdawn/50" 
+                        ? "dark:hover:bg-lightdawn/20 dark:hover:border-lightdawn/50" 
                         : "hover:bg-gradient-to-r hover:from-light-accent/20 hover:to-light-secondary/20 hover:border-light-accent/60"}`}
             aria-expanded={isDropdownOpen}
             aria-haspopup="listbox"
@@ -352,20 +352,18 @@ const Portfolio = () => {
             key={project.id}
             className={`border-2 
             ${darkMode 
-              ? "border-lightdawn/40" 
+              ? "dark:border-lightdawn/50 border-title/80" 
               : "border-light-accent/20"}
             ${darkMode 
-              ? "even:bg-dark-gradient-secondary/20 even:border-lightdawn/30" 
+              ? "dark:even:bg-lightdawn/10 even:bg-title/80 even:border-none" 
               : "even:bg-gradient-to-br from-light-accent/5 via-light-secondary/5 to-light-tertiary/5 even:border-light-secondary/20"}
             rounded-lg p-4 h-[320px] flex flex-col justify-between
-            ${darkMode 
-              ? "bg-dark-card" 
-              : "bg-white shadow-sm hover:shadow-lg"}`}
+            ${!darkMode && "bg-white shadow-sm hover:shadow-lg"}`}
             variants={projectItemVariants}
             whileHover={{ 
               y: -5, 
               boxShadow: darkMode 
-                ? 'var(--shadow-dark-lg)' 
+                ? '0 10px 20px rgba(123, 74, 226, 0.2)' 
                 : 'var(--shadow-light-lg)' 
             }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
@@ -394,7 +392,7 @@ const Portfolio = () => {
               />
               <div className={`absolute inset-0 
                 ${darkMode 
-                  ? "bg-dark-gradient-primary/80" 
+                  ? "dark:bg-dawn/80" 
                   : "bg-gradient-to-r from-light-accent/80 to-light-secondary/80"} 
                 backdrop-blur-sm flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-all duration-300`}>
                 <a
@@ -403,9 +401,9 @@ const Portfolio = () => {
                   rel="noopener noreferrer"
                   className={`
                     ${darkMode 
-                      ? "bg-dark-text text-dark-background hover:bg-lightdawn hover:text-dark-text" 
-                      : "bg-white hover:bg-light-accent text-light-accent hover:text-white"}
-                    px-4 py-2 rounded-full flex items-center gap-2 transition-colors shadow-md`}
+                      ? "dark:bg-lightdawn dark:hover:bg-lightdawn/80" 
+                      : "bg-white hover:bg-light-accent text-light-accent hover:text-white shadow-md"}
+                    px-4 py-2 rounded-full flex items-center gap-2 transition-colors`}
                 >
                   Visit Site <ExternalLink size={16} />
                 </a>

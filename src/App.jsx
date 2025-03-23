@@ -5,11 +5,9 @@ import Header from "./components/Header"
 import Hero from "./components/Hero"
 import Portfolio from "./components/Portfolio"
 import Skills from "./components/Skills"
-import { useState, useEffect, Suspense } from "react"
+import { useState, useEffect} from "react"
 import { ThemeProvider } from "./contexts/theme"
 import { heroSection } from "./constraints/constraint"
-import LoadingSpinner from "./components/LoadingSpinner"
-import ErrorBoundary from "./components/ErrorBoundary"
 
 // Configure Tailwind colors
 import './index.css';
@@ -35,20 +33,15 @@ function App() {
       localStorage.setItem("darkMode", darkMode.toString());
       const bodyEl = document.body;
       if (bodyEl) {
-        // Ensure smooth transitions for all elements when theme changes
+        // Add transition-all class to ensure smooth transitions throughout the entire document
         bodyEl.classList.add("transition-all", "duration-500");
         
         if (darkMode) {
           bodyEl.classList.add("dark");
           bodyEl.classList.remove("light");
-          // Add a class we can target for transition animations
-          bodyEl.classList.add("theme-transition");
-          setTimeout(() => bodyEl.classList.remove("theme-transition"), 500);
         } else {
           bodyEl.classList.remove("dark");
           bodyEl.classList.add("light");
-          bodyEl.classList.add("theme-transition");
-          setTimeout(() => bodyEl.classList.remove("theme-transition"), 500);
         }
       }
     } catch (error) {
@@ -67,21 +60,17 @@ function App() {
 
   return (
     <ThemeProvider value={{ darkMode, toggleDarkMode }}>
-      <ErrorBoundary>
-        <div className={darkMode ? "" : "bg-light-background"}>
-          <Header />
-          <main id="main-content">
-            <Suspense fallback={<LoadingSpinner />}>
-              <Hero />
-              <About />
-              <Portfolio />
-              <Skills />
-              <Contact />
-            </Suspense>
-          </main>
-          <Footer />
-        </div>
-      </ErrorBoundary>
+      <div className={darkMode ? "" : "bg-light-background"}>
+        <Header />
+        <main id="main-content">
+            <Hero />
+            <About />
+            <Portfolio />
+            <Skills />
+            <Contact />        
+        </main>
+        <Footer />
+      </div>
     </ThemeProvider>
   )
 }

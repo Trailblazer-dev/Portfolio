@@ -23,7 +23,7 @@ const Footer = () => {
     <motion.footer 
       className={`w-full 
       ${darkMode 
-        ? "bg-dark-card border-lightdawn/20" 
+        ? "dark:bg-lightdawn/5 dark:border-lightdawn/10" 
         : "bg-gradient-to-r from-light-accent/5 to-light-secondary/5 border-light-accent/10"} 
       border-t py-8 mt-6`}
       initial={{ opacity: 0 }}
@@ -40,7 +40,7 @@ const Footer = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
         >
-          <p className={`${darkMode ? "text-dark-text-muted" : "text-light-text/80"} select-none text-sm sm:text-base flex items-center`}>
+          <p className={`${darkMode ? "dark:text-title/70" : "text-light-text/80"} select-none text-sm sm:text-base flex items-center`}>
             {footer.copyright.replace(/\d{4}/, currentYear.toString())}
             <motion.span 
               className="inline-flex items-center ml-1"
@@ -50,7 +50,7 @@ const Footer = () => {
               <Heart size={14} className={`${darkMode ? "dark:text-lightdawn" : "text-light-accent"} ml-1`} fill="currentColor" />
             </motion.span>
           </p>
-          <p className={`${darkMode ? "text-dark-text-muted/80" : "text-light-text/60"} text-xs sm:text-sm mt-1`}>Frontend Developer & UI Designer</p>
+          <p className={`${darkMode ? "dark:text-title/50" : "text-light-text/60"} text-xs sm:text-sm mt-1`}>Frontend Developer & UI Designer</p>
         </motion.div>
         
         {/* Right side - Social links and theme toggle */}
@@ -60,14 +60,12 @@ const Footer = () => {
             onClick={toggleDarkMode}
             className={`p-2 
             ${darkMode 
-              ? "bg-dark-card hover:bg-lightdawn/10 border border-lightdawn/20" 
+              ? "dark:hover:bg-lightdawn/10 dark:bg-lightdawn/5" 
               : "hover:bg-light-accent/20 bg-white shadow-sm border border-light-accent/20"} 
             rounded-full transition-colors flex items-center justify-center`}
             whileHover={{ 
               y: -3, 
-              boxShadow: darkMode 
-                ? 'var(--shadow-dark-md)' 
-                : 'var(--shadow-light-md)'
+              backgroundColor: darkMode ? "#7b4ae233" : "rgba(255, 125, 84, 0.2)"
             }}
             whileTap={{ scale: 0.95 }}
             aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
@@ -89,14 +87,12 @@ const Footer = () => {
               key={social.id}
               className={`p-2 
               ${darkMode 
-                ? "bg-dark-card hover:bg-lightdawn/10 border border-lightdawn/20" 
+                ? "dark:hover:bg-lightdawn/10 dark:bg-lightdawn/5" 
                 : "hover:bg-light-accent/20 bg-white shadow-sm border border-light-accent/20"} 
               rounded-full transition-colors flex items-center justify-center`}
               whileHover={{ 
                 y: -3, 
-                boxShadow: darkMode 
-                  ? 'var(--shadow-dark-md)' 
-                  : 'var(--shadow-light-md)'
+                backgroundColor: darkMode ? "#7b4ae233" : "rgba(255, 125, 84, 0.2)"
               }}
               whileTap={{ scale: 0.95 }}
               aria-label={social.alt}
@@ -109,7 +105,7 @@ const Footer = () => {
       </div>
 
       {/* Optional attribution line */}
-      <div className="text-center mt-4 text-xs dark:text-dark-text-muted/60 text-dawn/60">
+      <div className="text-center mt-4 text-xs dark:text-title/40 text-dawn/60">
         <motion.p 
           className="dark:hover:text-lightdawn/80 hover:text-dawn/80 transition-colors duration-300"
           whileHover={{ scale: 1.05 }} 
