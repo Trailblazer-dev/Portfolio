@@ -1,5 +1,6 @@
 import { contact } from "../constraints/constraint";
 import Button from "./Button";
+import ContactForm from "./ContactForm"; // Add this import
 import whatapp from "../assets/WhatsappLogo.png";
 import { useState } from "react";
 import { ArrowUp, Check, Copy } from "lucide-react";
@@ -36,23 +37,24 @@ const Contact = () => {
             </div>
             
             <div className="flex flex-col gap-6 justify-center items-center sm:flex-row sm:gap-8 my-6">
-                {/* WhatsApp button */}
+                {/* WhatsApp button - replaced with direct anchor tag for better reliability */}
                 <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.98 }}
                     transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 >
-                    <Button 
-                        as="a"
+                    <a 
                         href="https://wa.me/+254111250188?text=Hello%20I%20would%20like%20to%20contact%20you"
                         target="_blank"
-                        swit={true}
-                        className={`flex items-center justify-center outline-2 
-                        ${darkMode ? "dark:outline-lightdawn/10" : "outline-light-accent/20"} 
-                        outline-white gap-4 shadow-md 
-                        ${darkMode ? "dark:shadow-lightdawn/20" : "shadow-light-accent/30"} 
-                        ${darkMode ? "dark:hover:bg-lightdawn/10" : "hover:bg-gradient-to-br hover:from-light-accent/20 hover:to-light-secondary/20"} 
-                        hover:text-title group md:gap-6 md:px-6 md:py-3 md:text-lg lg:text-xl`}
+                        rel="noopener noreferrer"
+                        className={`flex items-center justify-center px-5 py-2.5 rounded-md
+                        ${darkMode 
+                          ? "bg-dark-card border border-lightdawn/20 text-white hover:bg-lightdawn/10" 
+                          : "bg-gradient-to-r from-light-accent/20 to-light-secondary/20 hover:from-light-accent/30 hover:to-light-secondary/30 border border-light-accent/10 text-light-text hover:text-light-accent"} 
+                        gap-4 shadow-md 
+                        ${darkMode ? "shadow-lightdawn/20" : "shadow-light-accent/30"} 
+                        hover:cursor-pointer transition-all duration-300 md:gap-6 md:px-6 md:py-3 md:text-lg lg:text-xl`}
+                        onClick={() => console.log("WhatsApp link clicked")}
                     >
                         <motion.img 
                             src={whatapp} 
@@ -60,7 +62,7 @@ const Contact = () => {
                             className="w-[24px] lg:w-[28px] dark:brightness-150 dark:filter dark:contrast-125 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[5deg]" 
                         />
                         {contact.whatapp}
-                    </Button>
+                    </a>
                 </motion.div>
                 
                 {/* Email container with consistent shadows */}
@@ -131,6 +133,20 @@ const Contact = () => {
                     </AnimatePresence>
                 </div>
             </div>
+            
+            {/* Contact Form Section */}
+            <motion.div 
+                className="w-full mt-12"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+            >
+                <h2 className={`text-2xl font-bold mb-4 text-center ${darkMode ? "text-lightdawn" : "text-light-accent"}`}>
+                    Send Me a Message
+                </h2>
+                <ContactForm />
+            </motion.div>
             
             <motion.a 
                 href="#hero" 

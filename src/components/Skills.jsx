@@ -81,7 +81,7 @@ const Skills = () => {
         </h1>
       </motion.div>
 
-      {/* Daily technologies section with enhanced light theme */}
+      {/* Daily technologies section with consistent theme styling */}
       <motion.div 
         className="flex flex-col justify-center items-center gap-6 mb-16"
         variants={containerVariant}
@@ -90,7 +90,7 @@ const Skills = () => {
         viewport={{ once: true }}
       >
         <motion.p 
-          className={`${darkMode ? "dark:text-title/60" : "text-light-text/90"} text-lg text-center`}
+          className={`${darkMode ? "text-dark-text-muted" : "text-light-text/90"} text-lg text-center`}
           variants={itemVariant}
         >
           {skills.subtitle}
@@ -127,7 +127,7 @@ const Skills = () => {
           </Slider>
         </div>
 
-        {/* Desktop view - Enhanced for light theme */}
+        {/* Desktop view - Enhanced for consistent theme styling */}
         <motion.div 
           className="hidden sm:grid sm:grid-cols-5 md:grid-cols-10 gap-x-6 gap-y-8 px-4"
           variants={containerVariant}
@@ -141,17 +141,17 @@ const Skills = () => {
             >
               <div className={`w-[50px] h-[50px] rounded-md 
               ${darkMode 
-                ? "dark:bg-lightdawn/5" 
+                ? "bg-dark-card border border-lightdawn/20" 
                 : "bg-white border border-light-accent/10 shadow-md"} 
               p-1 backdrop-blur-md flex items-center justify-center 
               ${darkMode 
-                ? "group-hover:dark:bg-lightdawn/10" 
+                ? "group-hover:bg-lightdawn/10 group-hover:border-lightdawn/40 group-hover:dark-shadow-md" 
                 : "group-hover:bg-gradient-to-br group-hover:from-light-accent/5 group-hover:to-light-secondary/10 group-hover:shadow-lg group-hover:border-light-accent/20"} 
               transition-all duration-300 sm:w-[60px] sm:h-[60px]`}>
                 <img 
                   src={tech} 
                   alt={`Tech stack ${index+1}`} 
-                  className={`w-full h-full object-contain ${!darkMode && 'filter hover:drop-shadow-md transition-all duration-300'}`} 
+                  className={`w-full h-full object-contain ${!darkMode ? 'filter hover:drop-shadow-md' : 'hover:drop-shadow-lg'} transition-all duration-300`} 
                 />
               </div>
             </motion.div>

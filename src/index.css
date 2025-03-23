@@ -62,6 +62,22 @@
     --shadow-light-md: 0 4px 8px rgba(255, 125, 84, 0.08), 0 2px 4px rgba(255, 125, 84, 0.04);
     --shadow-light-lg: 0 10px 20px rgba(255, 125, 84, 0.12), 0 3px 6px rgba(255, 125, 84, 0.08);
     --shadow-light-xl: 0 20px 25px rgba(255, 125, 84, 0.15), 0 5px 10px rgba(255, 125, 84, 0.1);
+
+    /* Dark theme colors - reorganized to match light theme naming pattern */
+    --color-dark-accent: #7B4AE2; /* Same as lightdawn - primary accent */
+    --color-dark-secondary: #6C63FF; /* Secondary accent color */
+    --color-dark-tertiary: #9D8DF1; /* Tertiary accent color */
+    --color-dark-background: #090E16; /* Same as dawn - main background */
+    --color-dark-background-alt: #121826; /* Alternative background */
+    --color-dark-card: #1A1E2E; /* Card background */
+    --color-dark-text: #FFFFFF; /* Main text color */
+    --color-dark-text-muted: rgba(255, 255, 255, 0.7); /* Muted text */
+    
+    /* Shadow variables for dark theme to match light theme format */
+    --shadow-dark-sm: 0 2px 4px rgba(123, 74, 226, 0.1);
+    --shadow-dark-md: 0 4px 8px rgba(123, 74, 226, 0.15), 0 2px 4px rgba(123, 74, 226, 0.1);
+    --shadow-dark-lg: 0 10px 20px rgba(123, 74, 226, 0.2), 0 3px 6px rgba(123, 74, 226, 0.1);
+    --shadow-dark-xl: 0 20px 25px rgba(123, 74, 226, 0.25), 0 5px 10px rgba(123, 74, 226, 0.15);
 }
 
 /* Base theme settings */
@@ -310,6 +326,46 @@ select option:checked {
     .light-icon-container {
         @apply bg-white p-2 rounded-lg border border-light-accent/10 shadow-sm hover:shadow-md hover:border-light-accent/30 transition-all duration-300;
     }
+
+    /* Add new dark theme utility classes to match light theme ones */
+    .dark-shadow-sm {
+        box-shadow: var(--shadow-dark-sm);
+    }
+
+    .dark-shadow-md {
+        box-shadow: var(--shadow-dark-md);
+    }
+
+    .dark-shadow-lg {
+        box-shadow: var(--shadow-dark-lg);
+    }
+
+    .dark-shadow-xl {
+        box-shadow: var(--shadow-dark-xl);
+    }
+
+    .dark-gradient-primary {
+        background: linear-gradient(135deg, #7B4AE2 0%, #6C63FF 100%);
+    }
+
+    .dark-gradient-secondary {
+        background: linear-gradient(135deg, #6C63FF 0%, #9D8DF1 100%);
+    }
+
+    .dark-gradient-accent {
+        background: linear-gradient(135deg, #7B4AE2 0%, #9876F3 100%);
+    }
+
+    .dark-glass {
+        background: rgba(26, 30, 46, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(123, 74, 226, 0.2);
+    }
+
+    .dark-card {
+        @apply bg-dark-card rounded-lg border border-lightdawn/10 shadow-md hover:shadow-lg;
+        transition: all 300ms;
+    }
 }
 
 /* Add new animations for the portfolio filter dropdown */
@@ -387,4 +443,168 @@ select option:checked {
 
 .light-gradient-secondary {
     background: linear-gradient(135deg, #4ECDC4 0%, #5CCEDF 100%);
+}
+
+/* Add these new utility classes at the end of the file */
+.dark-logo-container {
+  background: linear-gradient(145deg, rgba(26, 30, 46, 0.7), rgba(26, 30, 46, 0.4));
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05), 
+              0 1px 8px rgba(123, 74, 226, 0.15);
+  border: 1px solid rgba(123, 74, 226, 0.2);
+}
+
+.light-logo-container {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5), 
+              0 1px 8px rgba(255, 125, 84, 0.15);
+  border: 1px solid rgba(255, 125, 84, 0.2);
+}
+
+.dark-logo-glow:hover .dark-logo-container {
+  box-shadow: 0 0 15px rgba(123, 74, 226, 0.3);
+  border-color: rgba(123, 74, 226, 0.5);
+}
+
+.light-logo-glow:hover .light-logo-container {
+  box-shadow: 0 0 15px rgba(255, 125, 84, 0.3);
+  border-color: rgba(255, 125, 84, 0.5);
+}
+
+/* Add these utilities at the end to manage potential overflow issues */
+.text-ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Additional z-index management utility classes */
+.z-header {
+  z-index: 50; /* Main header */
+}
+
+.z-header-backdrop {
+  z-index: 40; /* Behind the mobile menu but above content */
+}
+
+.z-header-menu {
+  z-index: 50; /* Same as header to ensure proper layering */
+}
+
+.z-header-dropdown {
+  z-index: 60; /* Above header for dropdowns */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Add these at the end of your file to enhance text visibility */
+
+/* Ensure navigation text is clearly visible in light theme */
+.light .text-light-text/70 {
+  color: rgba(45, 55, 72, 0.9); /* Darker shade for better contrast */
+}
+
+/* Fix any potential text/background contrast issues */
+.light a:hover,
+.light button:hover {
+  text-shadow: 0 0 0.5px rgba(0, 0, 0, 0.2); /* Subtle text shadow for better visibility */
+}
+
+/* Ensure proper sizing constraints for the header elements */
+@media screen and (min-width: 768px) and (max-width: 1280px) {
+  .header-container {
+    gap: 0.5rem;
+  }
+  
+  .nav-item {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  .toggle-container {
+    width: auto;
+    min-width: 2.5rem;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+/* Add these improved header-specific utilities at the end of the file */
+.header-container {
+  position: relative;
+  width: 100%;
+}
+
+/* Enhanced styling for nav items to ensure proper spacing and visibility */
+.nav-item {
+  position: relative;
+  outline: none;
+  display: flex;
+  align-items: center;
+}
+
+/* Medium screens optimization */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .nav-item {
+    font-size: 0.875rem;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+  
+  .toggle-container {
+    min-width: 42px;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+/* Ensure text in light theme has proper contrast */
+.light .text-light-text {
+  color: rgba(45, 55, 72, 1); /* Full opacity for better contrast */
+}
+
+/* Improve active state visibility in light theme */
+.light a[aria-current="page"] {
+  font-weight: 600;
+  color: var(--color-light-accent-600);
+}
+
+/* Improve focus styles for accessibility */
+.nav-item:focus-visible {
+  outline: 2px solid transparent;
+  box-shadow: 0 0 0 2px rgba(255, 125, 84, 0.5);
+}
+
+.dark .nav-item:focus-visible {
+  box-shadow: 0 0 0 2px rgba(123, 74, 226, 0.5);
+}
+
+/* Add these specific toggle button fixes at the end of your file */
+.toggle-button-container {
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Additional toggle button styles */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .toggle-container {
+    min-width: 3rem;
+  }
+}
+
+/* Ensure icons are centered properly */
+.lucide {
+  display: inline-flex;
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
 }

@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 const DarkModeBtn = ({ floating = false }) => {
-    const { darkMode, toggleDarkMode } = useTheme(); // Ensure this is properly destructured
+    const { darkMode, toggleDarkMode } = useTheme();
     const [isVisible, setIsVisible] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
     
@@ -16,36 +16,33 @@ const DarkModeBtn = ({ floating = false }) => {
                 const contactSection = document.getElementById('contact');
                 if (contactSection) {
                     const rect = contactSection.getBoundingClientRect();
-                    // Show floating button when contact section is in view
                     setIsVisible(rect.top < window.innerHeight && rect.bottom > 0);
                 }
             };
             
             window.addEventListener('scroll', handleScroll);
-            handleScroll(); // Check initial position
+            handleScroll();
             
             return () => window.removeEventListener('scroll', handleScroll);
         }
     }, [floating]);
     
-    // Base classes shared by both versions
-    const baseClasses = "relative flex items-center p-1 rounded-full transition-all duration-300 ease-in-out focus:outline-none";
+    // Base classes with fixed width/height for better icon containment
+    const baseClasses = "relative flex items-center justify-center p-0.5 rounded-full transition-all duration-300 ease-in-out focus:outline-none";
     
-    // Enhanced classes for light theme toggle
-    const headerClasses = `w-12 h-6 ${darkMode 
-        ? "bg-gradient-to-r from-blue-600 to-purple-600" 
+    // Fixed header toggle button size with specific dimensions for consistent rendering
+    const headerClasses = `w-10 h-5 ${darkMode 
+        ? "bg-dark-gradient-primary border border-lightdawn/30" 
         : "bg-gradient-to-r from-light-accent/70 to-light-tertiary/70 border border-light-accent/20"} 
-        shadow-md ${darkMode 
-        ? "hover:shadow-lightdawn/30" 
-        : "hover:shadow-light-accent/30"} active:scale-95`;
+        ${darkMode ? "dark-shadow-sm" : "shadow-light-sm"} 
+        ${darkMode ? "hover:dark-shadow-md" : "hover:shadow-light-md"} active:scale-95`;
     
-    // Enhanced floating version
+    // Floating button classes - no changes needed
     const floatingClasses = `w-14 h-14 fixed bottom-6 right-6 z-50 ${darkMode 
-        ? "bg-gradient-to-r from-blue-700 to-purple-800" 
+        ? "bg-dark-gradient-primary border-2 border-lightdawn/30" 
         : "bg-gradient-to-r from-light-accent/90 to-light-tertiary/90 border-2 border-white"}
-        shadow-xl ${darkMode 
-        ? "border-white/20" 
-        : ""} ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`;
+        ${darkMode ? "dark-shadow-lg" : "shadow-light-lg"} 
+        ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`;
     
     const finalClasses = `${baseClasses} ${floating ? floatingClasses : headerClasses}`;
     
@@ -82,7 +79,7 @@ const DarkModeBtn = ({ floating = false }) => {
                         )}
                     </motion.div>
                     
-                    {/* Decorative elements that appear on hover */}
+                    {/* Decorative elements */}
                     {isHovered && (
                         <motion.div 
                             className="absolute inset-0 pointer-events-none"
@@ -114,44 +111,44 @@ const DarkModeBtn = ({ floating = false }) => {
                     )}
                 </motion.div>
             ) : (
-                // Enhanced toggle styling for header version
-                <>
+                // Fixed header toggle with precise positioning
+                <div className="relative w-full h-full flex items-center justify-center">
+                    {/* Slider track icons - positioned absolutely for better control */}
+                    <div className="absolute inset-0 flex items-center justify-between px-1.5">
+                        <Sun 
+                            size={6} 
+                            className={`${darkMode ? "text-white/60" : "text-light-tertiary"}`} 
+                        />
+                        <Moon 
+                            size={6} 
+                            className={`${darkMode ? "text-white/60" : "text-dawn/40"}`} 
+                        />
+                    </div>
+                    
+                    {/* Toggle handle with fixed positioning */}
                     <motion.div 
-                        className={`absolute w-4 h-4 rounded-full flex items-center justify-center shadow-md z-10 ${
+                        className={`absolute w-3.5 h-3.5 rounded-full shadow-sm border ${
                             darkMode 
-                              ? 'bg-lightdawn' 
-                              : 'bg-white border border-light-accent/30'
-                        }`}
+                              ? 'bg-lightdawn border-lightdawn/10' 
+                              : 'bg-white border-light-accent/30'
+                        } flex items-center justify-center`}
                         animate={{ 
-                            x: darkMode ? 24 : 0,
+                            x: darkMode ? 10 : -10,
                         }}
                         transition={{ 
                             type: "spring", 
                             stiffness: 300, 
                             damping: 15 
                         }}
-                        whileHover={{ scale: 1.15, rotate: darkMode ? 15 : -15 }}
                     >
+                        {/* Icons inside the handle - centered with fixed size */}
                         {darkMode ? (
-                            <Moon size={12} className="text-white transition-transform group-hover:scale-110" />
+                            <Moon size={7} className="text-white" />
                         ) : (
-                            <Sun size={12} className="text-light-tertiary transition-transform group-hover:scale-110" />
+                            <Sun size={7} className="text-light-tertiary" />
                         )}
                     </motion.div>
-                    
-                    <div className="flex w-full justify-between items-center px-1 text-white">
-                        <Sun size={10} className={`${
-                            darkMode 
-                              ? "opacity-80" 
-                              : "text-light-tertiary opacity-100"
-                        } transition-all hover:scale-125`} />
-                        <Moon size={10} className={`${
-                            darkMode 
-                              ? "opacity-80" 
-                              : "text-dawn/40 opacity-60"
-                        } transition-all hover:scale-125`} />
-                    </div>
-                </>
+                </div>
             )}
         </motion.button>
     );

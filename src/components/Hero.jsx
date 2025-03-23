@@ -88,13 +88,13 @@ const Hero = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
-          {/* Background glow effect with enhanced light theme gradient */}
+          {/* Background glow effect with consistent styling */}
           <motion.div 
             className={`${darkMode 
-              ? "dark:bg-lightdawn/70" 
+              ? "bg-dark-gradient-primary opacity-70" 
               : "bg-gradient-to-r from-light-accent/50 via-light-secondary/40 to-light-tertiary/50"} 
               absolute w-[180px] h-[180px] rounded-full blur-xl -top-3 
-              ${darkMode ? "shadow-md shadow-lightdawn" : "shadow-light-lg"} 
+              ${darkMode ? "dark-shadow-lg" : "shadow-light-lg"} 
               md:w-[200px] md:h-[200px] md:-top-[3vh] lg:w-[280px] lg:h-[280px] xl:w-[320px] xl:h-[320px]`}
             animate={{ 
               scale: [1, 1.05, 1],
@@ -152,7 +152,7 @@ const Hero = () => {
           <motion.div 
             className={`absolute z-10 -left-6 bottom-23 
             ${darkMode 
-              ? 'bg-[#1a1a2e]' 
+              ? 'bg-dark-card border border-lightdawn/20' 
               : 'bg-white shadow-light-md border border-light-accent/20'} 
             rounded-full md:left-[1.5vw] tablet:left-[4vw] lg:left-[3vw] xl:left-[5vw] flex justify-center items-center p-1.5`}
             animate={{ 
@@ -166,7 +166,7 @@ const Hero = () => {
             }}
           >
             <Figma 
-              className={`${darkMode ? 'text-purple-400' : 'text-light-accent'} w-[24px] h-[24px] md:w-[30px] md:h-[30px] lg:w-[34px] lg:h-[34px]`}
+              className={`${darkMode ? 'text-lightdawn' : 'text-light-accent'} w-[24px] h-[24px] md:w-[30px] md:h-[30px] lg:w-[34px] lg:h-[34px]`}
               strokeWidth={2} 
             />
           </motion.div>
@@ -230,7 +230,7 @@ const Hero = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <a href="/CV.pdf" download="CV.pdf">
+            <a href="/Rich's_CV.pdf" download="Rich_Kariuki_CV.pdf">
               <Button 
                 className={`flex gap-1 sm:gap-2 shadow-md 
                 ${darkMode ? "shadow-lightdawn/20" : "shadow-light-accent/20"}
@@ -268,10 +268,10 @@ const Hero = () => {
         </motion.div>
       </div>
 
-      {/* Experience Cards Section - enhanced for light theme */}
+      {/* Experience Cards Section with consistent theming */}
       <motion.div 
         className={`contain pb-4 mt-14 md:border-y 
-        ${darkMode ? "md:border-lightdawn/10" : "md:border-light-accent/20"} md:py-8`}
+        ${darkMode ? "md:border-lightdawn/20" : "md:border-light-accent/20"} md:py-8`}
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -281,17 +281,13 @@ const Hero = () => {
           {ExperienceSection.map((item, index) => (
             <motion.div 
               className={`flex flex-col justify-center items-center border-2 
-              ${darkMode ? "dark:border-lightdawn/50" : "border-light-accent/30"} 
-              ${darkMode ? "border-title" : "border-light-text/70"}
+              ${darkMode ? "border-lightdawn/50" : "border-light-accent/30"} 
               w-[250px] h-[180px] rounded-2xl even:border-none 
               ${darkMode 
-                ? "dark:even:bg-lightdawn/10" 
-                : "even:bg-gradient-to-br from-light-accent/10 via-light-secondary/10 to-light-tertiary/10"} 
-              ${darkMode 
-                ? "even:bg-title" 
+                ? "even:bg-dark-gradient-secondary even:bg-lightdawn/10" 
                 : "even:bg-gradient-to-br from-light-accent/10 via-light-secondary/10 to-light-tertiary/10"}
               hover:shadow-md 
-              ${darkMode ? "hover:shadow-title/20" : ""} 
+              ${darkMode ? "hover:dark-shadow-md" : "hover:shadow-light-md"} 
               hover:cursor-pointer`}
               key={index}
               initial={{ opacity: 0, y: 20 }}
@@ -301,8 +297,8 @@ const Hero = () => {
               whileHover={{ 
                 y: -5, 
                 boxShadow: darkMode 
-                  ? '0 10px 25px rgba(123, 74, 226, 0.15)' 
-                  : 'var(--shadow-light-xl)'
+                  ? 'var(--shadow-dark-lg)' 
+                  : 'var(--shadow-light-lg)'
               }}
             >
               <div className="flex items-center justify-center">
@@ -328,12 +324,10 @@ const Hero = () => {
         <motion.div 
           className={`hidden md:flex justify-around items-center 
           ${darkMode 
-            ? "dark:bg-lightdawn/10" 
-            : "bg-gradient-to-r from-light-accent/10 via-light-secondary/10 to-light-tertiary/15 shadow-md"} 
-          ${darkMode 
-            ? "bg-title/80" 
-            : "light-glass"}
-          mt-8 px-6 py-3 w-fit mx-auto rounded-xl gap-12 lg:gap-20`}
+            ? "bg-dark-glass" 
+            : "light-glass"} 
+          mt-8 px-6 py-3 w-fit mx-auto rounded-xl gap-12 lg:gap-20 
+          ${darkMode ? "dark-shadow-md" : "shadow-light-md"}`}
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}

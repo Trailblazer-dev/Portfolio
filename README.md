@@ -21,6 +21,10 @@ You can view the live portfolio at: [portfolio.richkariuki.com](https://portfoli
 - **Project Filtering** - Filter projects by technology with intuitive controls
 - **Accessibility** - ARIA attributes, keyboard navigation, and screen reader support
 - **Performance Optimized** - Lazy loading, optimized animations, and efficient rendering
+- **SEO Ready** - Meta tags, sitemap.xml, and robots.txt included
+- **Analytics** - Google Analytics integration
+- **Contact Form** - Validated contact form with submission handling
+- **PWA Support** - Progressive Web App capabilities for offline usage
 
 ## 🛠️ Technologies
 
@@ -33,34 +37,37 @@ You can view the live portfolio at: [portfolio.richkariuki.com](https://portfoli
 
 ## 🚀 Getting Started
 
-### Prerequisites
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/portfolio.git
+cd portfolio
+```
 
-- Node.js (v18+ recommended)
-- npm or yarn
+2. Install dependencies:
+```bash
+npm install
+```
 
-### Installation
+3. Start the development server:
+```bash
+npm run dev
+```
 
-1. Clone the repository
-   ```bash
-   git clone https://github.com/yourusername/portfolio.git
-   cd portfolio
-   ```
+4. Build for production:
+```bash
+npm run build
+```
 
-2. Install dependencies
-   ```bash
-   npm install
-   # or with yarn
-   yarn
-   ```
+5. Preview the production build:
+```bash
+npm run preview
+```
 
-3. Start the development server
-   ```bash
-   npm run dev
-   # or with yarn
-   yarn dev
-   ```
+## 📝 Additional Scripts
 
-4. Open [http://localhost:5173](http://localhost:5173) to view it in the browser
+- **Image Optimization**: `npm run optimize-images`
+- **Bundle Analysis**: `npm run analyze`
+- **Linting**: `npm run lint`
 
 ## 📁 Project Structure
 
@@ -76,10 +83,13 @@ You can view the live portfolio at: [portfolio.richkariuki.com](https://portfoli
 │   ├── Button.jsx               # Reusable button component
 │   ├── Button.d.ts              # TypeScript definitions for Button
 │   ├── Contact.jsx              # Contact section with email functionality
+│   ├── ContactForm.jsx          # Form with validation for contact
 │   ├── DarkModeBtn.jsx          # Theme toggle with animations
 │   ├── Footer.jsx               # Page footer component
 │   ├── Header.jsx               # Navigation with mobile menu
 │   ├── Hero.jsx                 # Hero section with animations
+│   ├── Analytics.jsx            # Google Analytics component
+│   ├── LoadingSpinner.jsx       # Loading state component
 │   ├── Portfolio.jsx            # Projects section with filtering
 │   └── Skills.jsx               # Skills showcase with tech icons
 ├── contexts/                    # React context providers
@@ -109,6 +119,24 @@ The portfolio is fully responsive with tailored experiences for:
 - Tablets (640px - 1024px)
 - Desktops (> 1024px)
 
+## ♿ Accessibility
+
+The portfolio follows WCAG 2.1 guidelines:
+- Keyboard navigation
+- Screen reader compatibility
+- Skip-to-content link
+- ARIA attributes
+- Color contrast compliance
+
+## 🚀 Performance
+
+- Image optimization
+- Code splitting
+- Lazy loading
+- Bundle size optimization
+- Font display optimization
+- PWA capabilities
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
@@ -125,6 +153,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 📬 Contact
 
-Rich Kariuki - [richvictor830@gmail.com](mailto:richvictor830@gmail.com)
+Rich Kariuki - richvictor830@gmail.com
 
-Project Link: [https://github.com/Trailblazer-dev/portfolio](https://github.com/Trailblazer-dev/portfolio)
+GitHub: [https://github.com/Trailblazer-dev](https://github.com/Trailblazer-dev)
