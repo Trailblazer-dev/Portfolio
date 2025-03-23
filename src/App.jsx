@@ -23,6 +23,9 @@ function App() {
     localStorage.setItem("darkMode", darkMode.toString());
     const bodyEl = document.body;
     if (bodyEl) {
+      // Add transition-all class to ensure smooth transitions throughout the entire document
+      bodyEl.classList.add("transition-all", "duration-500");
+      
       if (darkMode) {
         bodyEl.classList.add("dark");
       } else {

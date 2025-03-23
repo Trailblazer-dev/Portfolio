@@ -16,7 +16,7 @@
 
 /* Base theme settings */
 body{
-    @apply font-Rale dark:bg-dawn bg-gray-50 text-gray-900 dark:text-white transition-colors duration-300;
+    @apply font-Rale dark:bg-dawn bg-gray-200 text-gray-900 dark:text-white transition-colors duration-500;
     scroll-behavior: smooth;
 }
 
@@ -26,25 +26,47 @@ body{
 }
 
 ::-webkit-scrollbar-track {
-    @apply bg-transparent;
+    @apply dark:bg-dawn/50 bg-gray-100;
 }
 
 ::-webkit-scrollbar-thumb {
-    @apply bg-lightdawn/20 rounded-full;
+    @apply dark:bg-lightdawn/30 bg-dawn/30 rounded-full transition-colors duration-300;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    @apply bg-lightdawn/40;
+    @apply dark:bg-lightdawn/50 bg-dawn/50;
 }
 
 /* Focus outline - Better accessibility */
 :focus-visible {
-    @apply outline-none ring-2 ring-lightdawn/70 ring-offset-1 ring-offset-transparent;
+    @apply outline-none ring-2 dark:ring-lightdawn/70 ring-dawn/70 ring-offset-1 ring-offset-transparent;
 }
 
 /* Selection styling */
 ::selection {
-    @apply bg-lightdawn/30 text-white;
+    @apply dark:bg-lightdawn/30 bg-dawn/30 dark:text-white text-gray-900;
+}
+
+/* Custom styling for select dropdown */
+select {
+    @apply transition-all duration-300;
+}
+
+select:focus {
+    @apply ring-2 dark:ring-lightdawn/40 ring-dawn/40;
+}
+
+/* Customize option appearance for the dropdown */
+option {
+    @apply dark:bg-dawn/90 bg-white p-2 my-1;
+}
+
+/* Make dropdown options trigger global styling */
+select option:hover,
+select option:focus,
+select option:active,
+select option:checked {
+    @apply dark:bg-lightdawn/20 bg-dawn/10;
 }
 
 @layer components{
@@ -52,7 +74,7 @@ body{
         @apply mx-4 md:mx-10 xl:mx-16 lg:max-w-7xl ;
     }
     .head{
-        @apply text-title font-bold text-2xl lg:text-3xl xl:text-4xl;
+        @apply dark:text-title text-dawn font-bold text-2xl lg:text-3xl xl:text-4xl;
     }
     
     .line-clamp-1 {
@@ -117,5 +139,70 @@ body{
 }
 
 .slick-dots li button:before{
-    @apply text-lightdawn;
+    @apply dark:text-lightdawn text-dawn;
+}
+
+/* Add new hover animation utilities */
+@layer utilities {
+    .hover-icon-pulse {
+        @apply transition-all duration-300;
+    }
+    
+    .group:hover .hover-icon-pulse,
+    .hover-icon-pulse:hover {
+        @apply scale-110;
+        filter: drop-shadow(0 0 3px theme('colors.lightdawn.DEFAULT', #7B4AE2));
+    }
+    
+    .hover-icon-rotate {
+        @apply transition-all duration-300;
+    }
+    
+    .group:hover .hover-icon-rotate,
+    .hover-icon-rotate:hover {
+        @apply rotate-6;
+    }
+    
+    .hover-icon-bounce {
+        @apply transition-all duration-300;
+    }
+    
+    .group:hover .hover-icon-bounce,
+    .hover-icon-bounce:hover {
+        @apply translate-y-[-4px];
+    }
+
+    .dropdown-shadow {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-track {
+        @apply dark:bg-dawn/30 bg-gray-100;
+        border-radius: 10px;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        @apply dark:bg-lightdawn/50 bg-dawn/50;
+        border-radius: 10px;
+    }
+}
+
+/* Add new animations for the portfolio filter dropdown */
+@keyframes pulse-border {
+  0%, 100% {
+    border-color: theme('colors.lightdawn.DEFAULT', #7B4AE2);
+    opacity: 0.3;
+  }
+  50% {
+    border-color: theme('colors.lightdawn.DEFAULT', #7B4AE2);
+    opacity: 0.8;
+  }
+}
+
+.animate-pulse-border {
+  animation: pulse-border 2s ease-in-out infinite;
 }

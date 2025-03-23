@@ -1,16 +1,30 @@
 import Button from "./Button";
 import { ExperienceSection, ExperienceSection2, heroSection } from "../constraints/constraint";
 import whatapp from "../assets/WhatsappLogo.png";
-import { ArrowDownToLine } from "lucide-react";
-import FigmaIcon from "../assets/icons/Figma.png";
-import ReactIcon from "../assets/icons/react.png";
-import TypescriptIcon from "../assets/icons/typescript.png";
+import { ArrowDownToLine, Github, Linkedin, Mail, Figma, Code2, Atom } from "lucide-react";
 import { motion } from "framer-motion";
+import useTheme from "../contexts/theme";
 
 const Hero = () => {
+  const { darkMode } = useTheme(); // We need to use this import
+  
+  // Map icon names to Lucide components
+  const getIconComponent = (name) => {
+    switch (name.toLowerCase()) {
+      case 'linkedin':
+        return <Linkedin size={28} className="dark:text-lightdawn text-dawn/80 hover:text-white transition-colors" />;
+      case 'github':
+        return <Github size={28} className="dark:text-lightdawn text-dawn/80 hover:text-white transition-colors" />;
+      case 'email':
+        return <Mail size={28} className="dark:text-lightdawn text-dawn/80 hover:text-white transition-colors" />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <>
-      <div className="contain mt-[4rem] flex flex-col md:flex-row items-center justify-center md:gap-4 md:justify-between md:mt-[6rem]" id="hero">
+      <div className="contain mt-[6rem] flex flex-col md:flex-row items-center justify-center md:gap-4 md:justify-between md:mt-[6rem]" id="hero">
         {/* Left section - Text & social icons */}
         <motion.div 
           className="flex flex-col flex-wrap mb-4 md:w-3/10 md:justify-start z-10"
@@ -18,10 +32,12 @@ const Hero = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <Button className="mb-4 md:text-lg select-none">{heroSection.caption}</Button>
+          <Button className="mb-4 md:text-lg select-none" swit={false}>
+            {heroSection.caption}
+          </Button>
           
           <motion.h1 
-            className="text-title font-bold text-4xl md:break-words md:text-6xl md:mb-4 select-none"
+            className="dark:text-title text-dawn font-bold text-4xl md:break-words md:text-6xl md:mb-4 select-none"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.6 }}
@@ -30,7 +46,7 @@ const Hero = () => {
           </motion.h1>
           
           <motion.div 
-            className="text-title/50 flex mb-4 md:textlg select-none"
+            className="dark:text-title/50  flex mb-4 md:textlg select-none"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.6 }}
@@ -38,7 +54,7 @@ const Hero = () => {
             {heroSection.subtitle}
           </motion.div>
           
-          {/* Social icons */}
+          {/* Social icons - now using Lucide dynamic icons */}
           <motion.div 
             className="flex items-center gap-4 mb-4"
             initial={{ opacity: 0 }}
@@ -53,12 +69,12 @@ const Hero = () => {
               >
                 <a 
                   href={icon.url} 
-                  className="" 
+                  className="p-2 rounded-full hover:dark:bg-lightdawn/10 hover:bg-dawn/20 transition-all flex items-center justify-center"
                   target="_blank" 
                   rel="noopener noreferrer"
                   aria-label={icon.alt}
                 >
-                  <img src={icon.icon} alt={icon.alt} className="w-[24px] md:w-[32px]" />
+                  {getIconComponent(icon.alt)}
                 </a>
               </motion.div>
             ))}
@@ -72,9 +88,9 @@ const Hero = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
-          {/* Background glow effect */}
+          {/* Background glow effect - Fix color format for animation */}
           <motion.div 
-            className="bg-lightdawn/30 absolute w-[180px] h-[180px] rounded-full blur-sm -top-3 shadow-md shadow-lightdawn md:w-[200px] md:h-[200px] md:-top-[3vh] lg:w-[280px] lg:h-[280px] xl:w-[320px] xl:h-[320px]"
+            className="dark:bg-lightdawn/70 bg-lightdawn absolute w-[180px] h-[180px] rounded-full blur-sm -top-3 shadow-md shadow-lightdawn md:w-[200px] md:h-[200px] md:-top-[3vh] lg:w-[280px] lg:h-[280px] xl:w-[320px] xl:h-[320px]"
             animate={{ 
               scale: [1, 1.05, 1],
               opacity: [0.3, 0.5, 0.3],
@@ -95,11 +111,11 @@ const Hero = () => {
             />
           </div>
           
-          {/* Floating icons */}
+          {/* Floating icons - now using Lucide icons with fixed bg colors */}
           <motion.div 
-            className="absolute z-10 -left-6 bottom-23 bg-[#090E16] rounded-full md:left-[3vw] tablet:left-[6vw] lg:left-[3vw] xl:left-[5vw] flex justify-center items-center"
+            className={`absolute z-10 -left-6 bottom-23 ${darkMode ? 'bg-[#1a1a2e]' : 'bg-white'} rounded-full md:left-[1.5vw] tablet:left-[4vw] lg:left-[3vw] xl:left-[5vw] flex justify-center items-center p-1.5`}
             animate={{ 
-              y: [0, -5, 0],
+              y: [0, -4, 0],
               x: [0, 3, 0],
             }}
             transition={{ 
@@ -108,15 +124,14 @@ const Hero = () => {
               ease: "easeInOut",
             }}
           >
-            <img
-              src={FigmaIcon}
-              alt="logo"
-              className="p-1.5 w-[24px] h-[24px] md:w-[30px] md:h-[30px] lg:w-[34px] lg:h-[34px]"
+            <Figma 
+              className="text-purple-400 w-[24px] h-[24px] md:w-[30px] md:h-[30px] lg:w-[34px] lg:h-[34px]" 
+              strokeWidth={2} 
             />
           </motion.div>
           
           <motion.div 
-            className="absolute z-10 -left-6 top-10 bg-[#090E16] rounded-full md:left-[3vw] md:top-6 tablet:left-[6vw] lg:left-[4vw] xl:left-[6vw] flex justify-center items-center"
+            className={`absolute z-10 -left-6 top-8 ${darkMode ? 'bg-[#1a1a2e]' : 'bg-white'} rounded-full md:left-[1.5vw] md:top-6 tablet:left-[4vw] lg:left-[4vw] xl:left-[6vw] flex justify-center items-center p-1.5`}
             animate={{ 
               y: [0, -7, 0],
               rotate: [0, 5, 0],
@@ -128,15 +143,14 @@ const Hero = () => {
               delay: 1,
             }}
           >
-            <img
-              src={ReactIcon}
-              alt="logo"
-              className="p-1.5 w-[24px] h-[24px] md:w-[30px] md:h-[30px]"
+            <Atom 
+              className="text-blue-500 w-[24px] h-[24px] md:w-[30px] md:h-[30px]" 
+              strokeWidth={2}
             />
           </motion.div>
           
           <motion.div 
-            className="absolute z-10 -right-7 top-18 bg-[#090E16] rounded-full md:right-[3vw] tablet:right-[5vw] lg:right-[3vw] lg:top-28 xl:right-[5vw] xl:top-34 flex justify-center items-center"
+            className={`absolute z-10 -right-7 top-18 ${darkMode ? 'bg-[#1a1a2e]' : 'bg-white'} rounded-full md:right-[1.5vw] tablet:right-[4vw] lg:right-[3vw] lg:top-28 xl:right-[5vw] xl:top-34 flex justify-center items-center p-1.5`}
             animate={{ 
               y: [0, 5, 0],
               x: [0, -3, 0],
@@ -148,10 +162,9 @@ const Hero = () => {
               delay: 2,
             }}
           >
-            <img
-              src={TypescriptIcon}
-              alt="logo"
-              className="p-1.5 w-[24px] h-[24px] md:w-[30px] md:h-[30px]"
+            <Code2 
+              className="text-blue-700 w-[24px] h-[24px] md:w-[30px] md:h-[30px]" 
+              strokeWidth={2}
             />
           </motion.div>
         </motion.div>
@@ -202,7 +215,7 @@ const Hero = () => {
         <div className="flex flex-col gap-8 justify-center items-center md:flex-row lg:gap-12">
           {ExperienceSection.map((item, index) => (
             <motion.div 
-              className="flex flex-col justify-center items-center border-2 border-lightdawn/50 w-[250px] h-[180px] rounded-2xl even:border-none even:bg-lightdawn/10 hover:shadow-md hover:shadow-title/20 hover:cursor-pointer" 
+              className="flex flex-col justify-center items-center border-2 dark:border-lightdawn/50 border-title w-[250px] h-[180px] rounded-2xl even:border-none dark:even:bg-lightdawn/10 even:bg-title hover:shadow-md hover:shadow-title/20 hover:cursor-pointer" 
               key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -219,10 +232,10 @@ const Hero = () => {
                   transition={{ duration: 0.5 }}
                 />
               </div>
-              <p className="text-title select-none">
+              <p className="dark:text-title text-dawn select-none">
                 {item.years}
               </p>
-              <h2 className="text-title font-semibold text-xl select-none">
+              <h2 className="dark:text-title text-dawn font-semibold text-xl select-none">
                 {item.title}
               </h2>
             </motion.div>
@@ -231,7 +244,7 @@ const Hero = () => {
         
         {/* Desktop Experience Summary */}
         <motion.div 
-          className="hidden md:flex justify-around items-center bg-lightdawn/10 mt-8 px-6 py-2.5 w-fit mx-auto rounded-xl gap-12 lg:gap-20"
+          className="hidden md:flex justify-around items-center dark:bg-lightdawn/10 bg-title/80 mt-8 px-6 py-2.5 w-fit mx-auto rounded-xl gap-12 lg:gap-20"
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
@@ -239,7 +252,7 @@ const Hero = () => {
           whileHover={{ scale: 1.02 }}
         >
           {ExperienceSection2.map((item, index) => (
-            <div className="flex flex-col items-center justify-center text-lightdawn tablet:px-4 lg:px-6 select-none" key={index}>
+            <div className="flex flex-col items-center justify-center dark:text-lightdawn text-dawn tablet:px-4 lg:px-6 select-none" key={index}>
               <p className="">
                 {item.subtitle}
               </p>

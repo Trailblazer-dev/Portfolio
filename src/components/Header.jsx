@@ -3,6 +3,7 @@ import Logo from "../assets/Logo.png";
 import { header } from "../constraints/constraint";
 import { useState, useEffect, useRef, useCallback } from "react";
 import DarkModeBtn from "./DarkModeBtn";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -76,96 +77,189 @@ const Header = () => {
     };
   }, [showMenu, handleClickOutside]);
 
+  // Animation variants
+  const mobileMenuVariants = {
+    closed: { 
+      opacity: 0,
+      y: -20,
+      transition: { 
+        duration: 0.3,
+        ease: "easeInOut"
+      }
+    },
+    open: { 
+      opacity: 1,
+      y: 0,
+      transition: { 
+        duration: 0.4,
+        ease: "easeOut",
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const menuItemVariants = {
+    closed: { opacity: 0, x: -20 },
+    open: { opacity: 1, x: 0 }
+  };
+
   return (
     <header 
-      className={`fixed top-0 left-0 w-full z-30 transition-all duration-300 ${
+      className={`fixed top-0 left-0 w-full z-30 transition-all duration-500 ${
         scrolled 
-          ? "bg-dawn/80 backdrop-blur-xl shadow-md py-1" 
-          : "bg-transparent backdrop-blur-sm py-3"
+          ? "dark:bg-dawn/90 bg-gray-100/90 backdrop-blur-xl shadow-md py-1" 
+          : "dark:bg-dawn/30 bg-white/10 backdrop-blur-sm py-3"
       }`}
     >
-      <div className={`relative mx-auto flex z-20 w-[90%] bg-lightdawn/5 rounded-lg px-3 justify-between items-center transition-all duration-300`}>
+      <motion.div 
+        initial={{ y: -10, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        className={`relative mx-auto flex z-20 w-[94%] sm:w-[90%] dark:bg-lightdawn/5 bg-dawn/5 rounded-lg px-3 justify-between items-center transition-all duration-300 ${scrolled ? 'py-2' : 'py-3'}`}
+      >
         <div className="md:w-2/5">
-          <a 
+          <motion.a 
             href="#hero" 
             className="flex items-center gap-2 py-2 group"
             aria-label="Logo - Back to top"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             <img 
               src={Logo} 
               alt="logo" 
-              width={24} 
-              height={24}
-              className="transition-all duration-300"
+              width={28} 
+              height={28}
+              className="transition-all duration-300 dark:invert-0 invert group-hover:rotate-[360deg] group-hover:scale-110"
             />
-            <span className="text-lightdawn font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">Rich K.</span>
-          </a>
+            <span className="dark:text-lightdawn text-dawn font-medium opacity-0 group-hover:opacity-100 transition-all duration-300 origin-left">Rich K.</span>
+          </motion.a>
         </div>
         
-        {/* Mobile menu backdrop - darker and more opaque */}
-        {showMenu && (
-          <div 
-            className="fixed inset-0 bg-black/80 md:hidden z-20"
-            aria-hidden="true"
-            onClick={handleClose} // Close menu when clicking backdrop
-          />
-        )}
+        {/* Mobile menu backdrop with improved animation */}
+        <AnimatePresence>
+          {showMenu && (
+            <motion.div 
+              className="fixed inset-0 dark:bg-black/80 bg-dawn/60 md:hidden z-20"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              aria-hidden="true"
+              onClick={handleClose}
+            />
+          )}
+        </AnimatePresence>
         
-        {/* Mobile menu with improved visibility */}
-        <div
-          ref={menuRef}
-          className={`md:w-3/5 transition-all ease-in-out duration-300 ${
-            showMenu
-              ? "fixed top-[4rem] inset-x-4 bg-dawn border-2 border-lightdawn/20 rounded-lg z-40 shadow-xl py-4 max-h-[80vh] overflow-y-auto"
-              : "hidden"
-          } md:flex md:py-0 md:static md:bg-transparent md:border-0 md:shadow-none md:max-h-none md:overflow-visible`}
-          role="navigation"
-        >
-          <ul className="flex flex-col md:flex-row items-center md:justify-end md:pr-4 md:w-full gap-3 md:gap-6">
-            {header.map((item, index) => (
-              <li
-                className="w-full md:w-auto"
-                key={index}
-              >
-                <a
-                  href={`#${item.id}`}
-                  className={`block px-6 py-3 md:px-0 md:py-0 transition-colors relative ${
-                    index !== 0 && showMenu ? "border-t border-lightdawn/20 md:border-0 mt-1 pt-3 md:pt-0 md:mt-0" : ""
-                  } ${
-                    activeSection === item.id 
-                      ? "text-lightdawn font-semibold" 
-                      : "text-title/80 hover:text-lightdawn"
-                  }`}
-                  onClick={handleClose}
-                  aria-current={activeSection === item.id ? "page" : undefined}
-                >
-                  {item.title}
-                  {/* Active indicator */}
-                  {activeSection === item.id && (
-                    <span className="absolute -bottom-1 left-6 right-6 md:left-0 md:right-0 h-0.5 bg-lightdawn rounded-full" />
-                  )}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {/* Mobile menu with improved animation and styling */}
+        <AnimatePresence>
+          {(showMenu || window.innerWidth >= 768) && (
+            <motion.div
+              ref={menuRef}
+              className={`md:w-3/5 ${
+                showMenu
+                  ? "fixed top-[4rem] inset-x-4 dark:bg-dawn/95 bg-white/95 border-2 dark:border-lightdawn/20 border-dawn/20 rounded-xl z-40 shadow-xl py-5 max-h-[80vh] overflow-y-auto"
+                  : "hidden"
+              } md:flex md:py-0 md:static md:bg-transparent md:border-0 md:shadow-none md:max-h-none md:overflow-visible`}
+              role="navigation"
+              variants={mobileMenuVariants}
+              initial="closed"
+              animate="open"
+              exit="closed"
+            >
+              <ul className="flex flex-col md:flex-row items-center md:justify-end md:pr-4 md:w-full gap-4 md:gap-8">
+                {header.map((item, index) => (
+                  <motion.li
+                    className="w-full md:w-auto"
+                    key={index}
+                    variants={menuItemVariants}
+                    custom={index}
+                  >
+                    <motion.a
+                      href={`#${item.id}`}
+                      className={`block px-6 py-4 md:px-0 md:py-0 transition-all duration-300 relative group
+                        ${index !== 0 && showMenu ? "dark:border-t dark:border-lightdawn/10 border-t border-dawn/10 mt-1 pt-4 md:pt-0 md:mt-0 md:border-0" : ""}
+                        ${activeSection === item.id 
+                          ? "dark:text-lightdawn text-dawn font-semibold" 
+                          : "dark:text-title/80 text-dawn/80 dark:hover:text-lightdawn hover:text-dawn"}
+                          text-lg md:text-base lg:text-lg`}
+                      onClick={handleClose}
+                      aria-current={activeSection === item.id ? "page" : undefined}
+                      whileHover={{ x: showMenu ? 5 : 0, scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <span className="relative inline-flex items-center">
+                        {item.title}
+                        <motion.span 
+                          className={`absolute left-full ml-1 opacity-0 group-hover:opacity-100 transition-all duration-300 ${
+                            activeSection === item.id ? "text-lightdawn" : ""
+                          }`}
+                          initial={{ scale: 0, opacity: 0 }}
+                          whileHover={{ scale: 1, opacity: 1 }}
+                        >
+                          {item.id === "hero" && "🏠"}
+                          {item.id === "about" && "👤"}
+                          {item.id === "project" && "💼"}
+                          {item.id === "skills" && "🧠"}
+                          {item.id === "contact" && "✉️"}
+                        </motion.span>
+                      </span>
+                      {/* Active indicator with animation */}
+                      {activeSection === item.id && (
+                        <motion.span
+                          className="absolute -bottom-1 left-6 right-6 md:left-0 md:right-0 h-0.5 dark:bg-lightdawn bg-dawn rounded-full" 
+                          layoutId="activeSection"
+                          transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                        />
+                      )}
+                    </motion.a>
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+          )}
+        </AnimatePresence>
         
         <div className="flex items-center gap-4 z-30">
           <DarkModeBtn />
-          <button
-            className={`text-title/70 hover:text-lightdawn md:hidden focus:outline-none focus:ring-2 focus:ring-lightdawn/50 rounded-md p-2 ${showMenu ? 'bg-lightdawn/20' : ''}`}
+          <motion.button
+            className={`dark:text-title/80 text-dawn/80 dark:hover:text-lightdawn hover:text-dawn md:hidden focus:outline-none focus:ring-2 dark:focus:ring-lightdawn/50 focus:ring-dawn/50 rounded-md p-2 relative overflow-hidden ${showMenu ? 'dark:bg-lightdawn/20 bg-dawn/20' : ''}`}
             onClick={handleClick}
             aria-expanded={showMenu}
             aria-label={showMenu ? "Close menu" : "Open menu"}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
           >
-            {showMenu ? (
-              <X className="h-6 w-6 text-lightdawn" />
-            ) : (
-              <AlignJustify className="h-6 w-6" />
-            )}
-          </button>
+            <span className="absolute inset-0 dark:bg-lightdawn/5 bg-dawn/5 opacity-0 hover:opacity-100 transition-opacity duration-300"></span>
+            <AnimatePresence mode="wait">
+              {showMenu ? (
+                <motion.div
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  whileHover={{ scale: 1.1 }}
+                >
+                  <X className="h-6 w-6 dark:text-lightdawn text-dawn" />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="menu"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  whileHover={{ scale: 1.1 }}
+                >
+                  <AlignJustify className="h-6 w-6" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.button>
         </div>
-      </div>
+      </motion.div>
     </header>
   );
 };

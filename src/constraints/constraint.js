@@ -1,6 +1,3 @@
-import LinkedIn from "../assets/icons/linkedin.png";
-import Github from "../assets/icons/github.png";
-import Email from "../assets/icons/email.png";
 import HeroImg from "../assets/heroImg.png";
 import Code from "../assets/icons/Code.png";
 import Work from "../assets/icons/ProjectsIcon.svg";
@@ -14,6 +11,8 @@ import Rental from "../assets/rental.png";
 import Coffe from "../assets/coffee.png";
 import CheeseCake from "../assets/cheesecake.png";
 import Headphone from "../assets/headphone.png";
+
+// Import dark mode tech icons (existing)
 import Reacticon from "../assets/tools/React.png";
 import JavaScript from "../assets/tools/Javascript.png";
 import TypeScript from "../assets/tools/TypeScript.png";
@@ -24,6 +23,8 @@ import Figmaicon from "../assets/tools/Figma.png";
 import Githubicon from "../assets/tools/Github.png";
 import Shapeicon from "../assets/tools/Shape.png";
 import Insomniaicon from "../assets/tools/Insomnia.png";
+
+// Import dark mode other tech icons (existing)
 import Bitbucketicon from "../assets/tools/bitbucket.png";
 import Vueicon from "../assets/tools/Vue.png";
 import Nodejsicon from "../assets/tools/Nodejs.png";
@@ -37,6 +38,30 @@ import Dockericon from "../assets/tools/Docker.png";
 import Planeicon from "../assets/PaperPlaneTilt.png";
 import CopyIcon from "../assets/CopySimple.png";
 import ProfileImg from "../assets/profile.png";
+
+// Import light mode tech icons with correct paths
+import ReacticonLight from "../assets/toolslighttheme/React.png";
+import JavaScriptLight from "../assets/toolslighttheme/Javascript.png";
+import TypeScriptLight from "../assets/toolslighttheme/TypeScript.png";
+import NextJsLight from "../assets/toolslighttheme/Nextjs.png";
+import CssiconLight from "../assets/toolslighttheme/Group 1.png";
+import HtmliconLight from "../assets/toolslighttheme/HTML5.png";
+import FigmaiconLight from "../assets/toolslighttheme/Figma.png";
+import GithubiconLight from "../assets/toolslighttheme/Github.png";
+import ShapeiconLight from "../assets/toolslighttheme/Shape.png";
+import InsomniaiconLight from "../assets/toolslighttheme/Insomnia.png";
+
+// Import light mode other tech icons from tools2lighttheme folder
+import BitbucketiconLight from "../assets/tools2lighttheme/bitbucket.png";
+import VueiconLight from "../assets/tools2lighttheme/Vue.png";
+import NodejsiconLight from "../assets/tools2lighttheme/Nodejs.png";
+import TailwindcssiconLight from "../assets/tools2lighttheme/TailwindCSS.png";
+import SassiconLight from "../assets/tools2lighttheme/Shape.png";
+import PythoniconLight from "../assets/tools2lighttheme/Python.png";
+import MysqliconLight from "../assets/tools2lighttheme/Group 26.png";
+import PostgresqliconLight from "../assets/tools2lighttheme/Union.png";
+import MongoDBiconLight from "../assets/tools2lighttheme/Group 27.png";
+import DockericonLight from "../assets/tools2lighttheme/Docker.png";
 
 export const header = [
   {
@@ -67,19 +92,16 @@ export const heroSection = {
   subtitle: "Front-end developer · UI designer",
   icons: [
     {
-      icon: LinkedIn,
       url: "https://www.linkedin.com/in/rich-victor-emanuel-001165196/",
       alt: "LinkedIn",
       id: 1,
     },
     {
-      icon: Github,
       url: "https://github.com/Trailblazer-dev",
       alt: "Github",
       id: 2,
     },
     {
-      icon: Email,
       url: "mailto:richvictor830@gmail.com",
       alt: "Email",
       id: 3,
@@ -262,6 +284,7 @@ export const skills = {
   icon: "🧑‍💻 Skills · Experiences",
   title: "Technologies and skills",
   subtitle: "Techs I use daily",
+  // Dark mode tech stacks (existing)
   techstacks: [
     Reacticon,
     JavaScript,
@@ -274,7 +297,34 @@ export const skills = {
     Shapeicon,
     Insomniaicon,
   ],
+  // Light mode tech stacks - using the correctly imported light theme icons
+  techstacksLight: [
+    ReacticonLight,
+    JavaScriptLight,
+    TypeScriptLight,
+    NextJsLight,
+    CssiconLight,
+    HtmliconLight,
+    FigmaiconLight,
+    GithubiconLight,
+    ShapeiconLight,
+    InsomniaiconLight,
+  ],
+  // Names for the icons (to help generate light theme paths)
+  techNames: [
+    "React.png",
+    "Javascript.png",
+    "TypeScript.png",
+    "Nextjs.png",
+    "Group 1.png",
+    "HTML5.png",
+    "Figma.png",
+    "Github.png",
+    "Shape.png",
+    "Insomnia.png"
+  ],
   subtitle2: "Other techs I have worked on projects with",
+  // Dark mode other tech stacks (existing)
   techstacks2: [
     Bitbucketicon,
     Vueicon,
@@ -287,6 +337,32 @@ export const skills = {
     MongoDBicon,
     Dockericon,
   ],
+  // Light mode for other tech stacks - add this new array
+  techstacks2Light: [
+    BitbucketiconLight,
+    VueiconLight,
+    NodejsiconLight,
+    TailwindcssiconLight, 
+    SassiconLight,
+    PythoniconLight,
+    MysqliconLight,
+    PostgresqliconLight,
+    MongoDBiconLight,
+    DockericonLight,
+  ],
+  // Names for other tech icons
+  techNames2: [
+    "bitbucket.png",
+    "Vue.png",
+    "Nodejs.png",
+    "TailwindCSS.png",
+    "sass.png",
+    "Python.png",
+    "mysql.png",
+    "Union.png",
+    "leaf.png",
+    "Docker.png"
+  ]
 };
 
 export const contact = {
@@ -304,13 +380,11 @@ export const footer = {
   copyright: "Copyright © Rich Kariuki: 2025",
   socials: [
     {
-      icon: LinkedIn,
       url: "https://www.linkedin.com/in/rich-victor-emanuel-001165196/",
       alt: "LinkedIn",
       id: 1,
     },
     {
-      icon: Github,
       url: "https://github.com/Trailblazer-dev",
       alt: "Github",
       id: 2,

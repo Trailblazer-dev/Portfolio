@@ -31,12 +31,20 @@ const DarkModeBtn = ({ floating = false }) => {
     // Base classes shared by both versions
     const baseClasses = "relative flex items-center p-1 rounded-full transition-all duration-300 ease-in-out focus:outline-none";
     
-    // Classes specific to header version
-    const headerClasses = "w-12 h-6 bg-gradient-to-r from-blue-600 to-purple-600 shadow-md hover:shadow-lightdawn/30 active:scale-95";
+    // Classes specific to header version - updated for light theme
+    const headerClasses = `w-12 h-6 ${darkMode 
+        ? "bg-gradient-to-r from-blue-600 to-purple-600" 
+        : "bg-gradient-to-r from-gray-500 to-dawn"} shadow-md ${darkMode 
+        ? "hover:shadow-lightdawn/30" 
+        : "hover:shadow-dawn/30"} active:scale-95`;
     
-    // Classes specific to floating version
-    const floatingClasses = `w-14 h-14 fixed bottom-6 right-6 z-50 bg-gradient-to-r from-blue-700 to-purple-800 
-        shadow-xl border-2 border-white/20 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`;
+    // Classes specific to floating version - updated for light theme
+    const floatingClasses = `w-14 h-14 fixed bottom-6 right-6 z-50 ${darkMode 
+        ? "bg-gradient-to-r from-blue-700 to-purple-800" 
+        : "bg-gradient-to-r from-gray-600 to-dawn"}
+        shadow-xl border-2 ${darkMode 
+        ? "border-white/20" 
+        : "border-dawn/40"} ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}`;
     
     const finalClasses = `${baseClasses} ${floating ? floatingClasses : headerClasses}`;
     
@@ -61,11 +69,17 @@ const DarkModeBtn = ({ floating = false }) => {
                     animate={{ rotate: darkMode ? 0 : 180 }}
                     transition={{ duration: 0.5 }}
                 >
-                    {darkMode ? (
-                        <Moon size={24} className="text-white" />
-                    ) : (
-                        <Sun size={24} className="text-white" />
-                    )}
+                    <motion.div
+                        whileHover={{ scale: 1.2, rotate: darkMode ? 15 : -15 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                        className="relative z-10"
+                    >
+                        {darkMode ? (
+                            <Moon size={24} className="text-white filter drop-shadow-lg" />
+                        ) : (
+                            <Sun size={24} className="text-dawn filter drop-shadow-lg" />
+                        )}
+                    </motion.div>
                     
                     {/* Decorative elements that appear on hover */}
                     {isHovered && (
@@ -111,17 +125,18 @@ const DarkModeBtn = ({ floating = false }) => {
                             stiffness: 300, 
                             damping: 15 
                         }}
+                        whileHover={{ scale: 1.15, rotate: darkMode ? 15 : -15 }}
                     >
                         {darkMode ? (
-                            <Moon size={12} className="text-white" />
+                            <Moon size={12} className="text-white transition-transform group-hover:scale-110" />
                         ) : (
-                            <Sun size={12} className="text-yellow-500" />
+                            <Sun size={12} className="text-yellow-500 transition-transform group-hover:scale-110" />
                         )}
                     </motion.div>
                     
                     <div className="flex w-full justify-between items-center px-1 text-white">
-                        <Sun size={10} className="opacity-80" />
-                        <Moon size={10} className="opacity-80" />
+                        <Sun size={10} className={`${darkMode ? "opacity-80" : "text-yellow-500 opacity-100"} transition-all hover:scale-125`} />
+                        <Moon size={10} className={`${darkMode ? "opacity-80" : "text-dawn opacity-60"} transition-all hover:scale-125`} />
                     </div>
                 </>
             )}

@@ -1,15 +1,27 @@
 import { footer } from "../constraints/constraint";
 import { motion } from "framer-motion";
-import { Heart, Moon, Sun } from "lucide-react";
-import useTheme from '../constraints/contexts/theme';
+import { Github, Heart, Linkedin, Moon, Sun } from "lucide-react";
+import useTheme from '../contexts/theme';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const {darkMode, toggleDarkMode} = useTheme();
+  
+  // Map icon names to Lucide components
+  const getIconComponent = (name) => {
+    switch (name.toLowerCase()) {
+      case 'linkedin':
+        return <Linkedin size={20} className="dark:text-lightdawn/80 text-dawn/50 hover:text-title dark:hover:text-lightdawn transition-colors" />;
+      case 'github':
+        return <Github size={20} className={`${darkMode ? 'text-lightdawn' : 'text-dawn/50 hover:text-title'} dark:hover:text-lightdawn transition-colors`} />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <motion.footer 
-      className="w-full bg-lightdawn/5 border-t border-lightdawn/10 py-8 mt-6"
+      className="w-full dark:bg-lightdawn/5 bg-dawn/20 border-t dark:border-lightdawn/10 border-dawn/20 py-8 mt-6"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
@@ -24,17 +36,17 @@ const Footer = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
         >
-          <p className="text-title/70 select-none text-sm sm:text-base flex items-center">
-            {footer.copyright.replace(/\d{4}/, currentYear)}
+          <p className="dark:text-title/70 text-dawn/80 select-none text-sm sm:text-base flex items-center">
+            {footer.copyright.replace(/\d{4}/, currentYear.toString())}
             <motion.span 
               className="inline-flex items-center ml-1"
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ repeat: Infinity, duration: 2 }}
             >
-              <Heart size={14} className="text-lightdawn ml-1" fill="currentColor" />
+              <Heart size={14} className="dark:text-lightdawn text-gray-500 ml-1" fill="currentColor" />
             </motion.span>
           </p>
-          <p className="text-title/50 text-xs sm:text-sm mt-1">Frontend Developer & UI Designer</p>
+          <p className="dark:text-title/50 text-dawn/60 text-xs sm:text-sm mt-1">Frontend Developer & UI Designer</p>
         </motion.div>
         
         {/* Right side - Social links and theme toggle */}
@@ -42,7 +54,7 @@ const Footer = () => {
           {/* Theme toggle */}
           <motion.button
             onClick={toggleDarkMode}
-            className="p-2 hover:bg-lightdawn/10 rounded-full transition-colors bg-lightdawn/5 flex items-center justify-center"
+            className="p-2 dark:hover:bg-lightdawn/10 hover:bg-dawn/50 rounded-full transition-colors dark:bg-lightdawn/5 bg-dawn/30 flex items-center justify-center"
             whileHover={{ 
               y: -3, 
               backgroundColor: "#7b4ae233" // Fixed hex color instead of rgba
@@ -52,40 +64,39 @@ const Footer = () => {
             title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
           >
             {darkMode ? (
-              <Moon size={20} className="text-lightdawn" />
+              <Moon size={20} className="text-lightdawn " />
             ) : (
-              <Sun size={20} className="text-lightdawn" />
+              <Sun size={20} className="text-dawn/50 hover:text-title" />
             )}
           </motion.button>
           
-          {/* Social media links */}
+          {/* Social media links - now using Lucide icons */}
           {footer.socials.map((social) => (
             <motion.a 
               href={social.url} 
               target="_blank" 
               rel="noopener noreferrer" 
               key={social.id}
-              className="p-2 hover:bg-lightdawn/10 rounded-full transition-colors bg-lightdawn/5"
+              className="p-2 dark:hover:bg-lightdawn/10 hover:bg-dawn/60 rounded-full transition-colors dark:bg-lightdawn/5 bg-dawn/30 flex items-center justify-center"
               whileHover={{ 
                 y: -3, 
-                backgroundColor: "#7b4ae233" // Fixed hex color instead of rgba
+                backgroundColor: "#7b4ae233"
               }}
               whileTap={{ scale: 0.95 }}
               aria-label={social.alt}
               title={social.alt}
             >
-              <img src={social.icon} alt={social.alt} className="w-[20px] h-[20px]"/>
+              {getIconComponent(social.alt)}
             </motion.a>
           ))}
         </div>
       </div>
 
       {/* Optional attribution line */}
-      <div className="text-center mt-4 text-xs text-title/40">
+      <div className="text-center mt-4 text-xs dark:text-title/40 text-dawn/60">
         <motion.p 
-          className="hover:text-lightdawn/80 transition-colors duration-300"
+          className="dark:hover:text-lightdawn/80 hover:text-dawn/80 transition-colors duration-300"
           whileHover={{ scale: 1.05 }} 
-          // Removed color animation and replaced with CSS transition
         >
           Thank you for visiting
         </motion.p>

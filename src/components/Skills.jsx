@@ -3,9 +3,17 @@ import { skills } from "../constraints/constraint";
 import Button from "./Button";
 import Slider from "react-slick";
 import { motion } from "framer-motion";
+import useTheme from "../contexts/theme";
 
 const Skills = () => {
   const sliderRef = useRef(null);
+  const { darkMode } = useTheme();
+  
+  // Select the appropriate tech stacks based on theme
+  const dailyTechStacks = darkMode ? skills.techstacks : skills.techstacksLight;
+  
+  // For the second set, add a fallback to the dark mode icons if light mode ones aren't available
+  const otherTechStacks = darkMode ? skills.techstacks2 : (skills.techstacks2Light || skills.techstacks2);
 
   const settings = {
     dots: true,
@@ -81,7 +89,7 @@ const Skills = () => {
         viewport={{ once: true }}
       >
         <motion.p 
-          className="text-title/60 text-lg text-center"
+          className="dark:text-title/60 text-dawn/80 text-lg text-center"
           variants={itemVariant}
         >
           {skills.subtitle}
@@ -90,15 +98,19 @@ const Skills = () => {
         {/* Mobile slider */}
         <div className="sm:hidden w-full mb-4">
           <Slider ref={sliderRef} {...settings}>
-            {skills.techstacks.map((stack, index) => (
+            {dailyTechStacks.map((tech, index) => (
               <motion.div 
                 key={index} 
                 className="p-2 flex justify-center"
                 variants={itemVariant}
                 whileHover={{ scale: 1.2 }}
               >
-                <div className="w-[40px] h-[40px] rounded-md bg-lightdawn/5 p-2 backdrop-blur-md flex items-center justify-center hover:bg-lightdawn/10 transition-colors">
-                  <img src={stack} alt={`Tech stack ${index+1}`} className="w-full h-full object-contain" />
+                <div className="w-[40px] h-[40px] rounded-md dark:bg-lightdawn/5 bg-title/5 p-1 backdrop-blur-md flex items-center justify-center hover:dark:bg-lightdawn/10 hover:bg-title/10 transition-colors">
+                  <img 
+                    src={tech} 
+                    alt={`Tech stack ${index+1}`} 
+                    className="w-full h-full object-contain" 
+                  />
                 </div>
               </motion.div>
             ))}
@@ -110,15 +122,19 @@ const Skills = () => {
           className="hidden sm:grid sm:grid-cols-5 md:grid-cols-10 gap-x-6 gap-y-8 px-4"
           variants={containerVariant}
         >
-          {skills.techstacks.map((stack, index) => (
+          {dailyTechStacks.map((tech, index) => (
             <motion.div 
               key={index} 
               className="flex flex-col items-center gap-2 group"
               variants={itemVariant}
               whileHover={{ y: -5 }}
             >
-              <div className="w-[50px] h-[50px] rounded-md bg-lightdawn/5 p-3 backdrop-blur-md flex items-center justify-center group-hover:bg-lightdawn/10 transition-all duration-300 sm:w-[60px] sm:h-[60px]">
-                <img src={stack} alt={`Tech stack ${index+1}`} className="w-full h-full object-contain" />
+              <div className="w-[50px] h-[50px] rounded-md dark:bg-lightdawn/5 bg-title/5 p-1 backdrop-blur-md flex items-center justify-center group-hover:dark:bg-lightdawn/10 group-hover:bg-title/10 transition-all duration-300 sm:w-[60px] sm:h-[60px]">
+                <img 
+                  src={tech} 
+                  alt={`Tech stack ${index+1}`} 
+                  className="w-full h-full object-contain" 
+                />
               </div>
             </motion.div>
           ))}
@@ -134,7 +150,7 @@ const Skills = () => {
         viewport={{ once: true }}
       >
         <motion.p 
-          className="text-title/60 text-lg text-center"
+          className="dark:text-title/60 text-dawn/80 text-lg text-center"
           variants={itemVariant}
         >
           {skills.subtitle2}
@@ -143,15 +159,20 @@ const Skills = () => {
         {/* Mobile slider */}
         <div className="sm:hidden w-full mb-4">
           <Slider ref={sliderRef} {...settings}>
-            {skills.techstacks2.map((stack, index) => (
+            {/* Ensure we're always mapping over a valid array */}
+            {(otherTechStacks || []).map((tech, index) => (
               <motion.div 
                 key={index} 
                 className="p-2 flex justify-center"
                 variants={itemVariant}
                 whileHover={{ scale: 1.2 }}
               >
-                <div className="w-[40px] h-[40px] rounded-md bg-lightdawn/5 p-2 backdrop-blur-md flex items-center justify-center hover:bg-lightdawn/10 transition-colors">
-                  <img src={stack} alt={`Other tech ${index+1}`} className="w-full h-full object-contain" />
+                <div className="w-[40px] h-[40px] rounded-md dark:bg-lightdawn/5 bg-title/5 p-2 backdrop-blur-md flex items-center justify-center hover:dark:bg-lightdawn/10 hover:bg-title/10 transition-colors">
+                  <img 
+                    src={tech} 
+                    alt={`Other tech ${index+1}`} 
+                    className="w-full h-full object-contain" 
+                  />
                 </div>
               </motion.div>
             ))}
@@ -163,15 +184,20 @@ const Skills = () => {
           className="hidden sm:grid sm:grid-cols-5 md:grid-cols-10 gap-x-6 gap-y-8 px-4"
           variants={containerVariant}
         >
-          {skills.techstacks2.map((stack, index) => (
+          {/* Ensure we're always mapping over a valid array */}
+          {(otherTechStacks || []).map((tech, index) => (
             <motion.div 
               key={index} 
               className="flex flex-col items-center gap-2 group"
               variants={itemVariant}
               whileHover={{ y: -5 }}
             >
-              <div className="w-[50px] h-[50px] rounded-md bg-lightdawn/5 p-3 backdrop-blur-md flex items-center justify-center group-hover:bg-lightdawn/10 transition-all duration-300 sm:w-[60px] sm:h-[60px]">
-                <img src={stack} alt={`Other tech ${index+1}`} className="w-full h-full object-contain" />
+              <div className="w-[50px] h-[50px] rounded-md dark:bg-lightdawn/5 bg-title/5 p-3 backdrop-blur-md flex items-center justify-center group-hover:dark:bg-lightdawn/10 group-hover:bg-title/10 transition-all duration-300 sm:w-[60px] sm:h-[60px]">
+                <img 
+                  src={tech} 
+                  alt={`Other tech ${index+1}`} 
+                  className="w-full h-full object-contain" 
+                />
               </div>
             </motion.div>
           ))}

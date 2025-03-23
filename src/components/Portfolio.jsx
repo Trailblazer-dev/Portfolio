@@ -1,16 +1,39 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { portfolio } from "../constraints/constraint";
 import Button from "./Button";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
-import { motion } from "framer-motion";
-import { ExternalLink, Github } from "lucide-react";
+import Slider from "react-slick/lib/slider";
+import { motion, AnimatePresence } from "framer-motion";
+import { ExternalLink, Github, ChevronDown, Code2, Palette, FileCode } from "lucide-react";
 
 const Portfolio = () => {
   const sliderRef = useRef(null);
   const [activeFilter, setActiveFilter] = useState("all");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Get appropriate icon for technology
+  const getTechIcon = (tech) => {
+    const techLower = tech.toLowerCase();
+    if (techLower === "javascript") return <Code2 className="w-4 h-4" />;
+    if (techLower === "react js") return <motion.div className="w-4 h-4 text-blue-400" animate={{ rotate: isDropdownOpen ? [0, 180, 360] : 0 }} transition={{ duration: 2, repeat: Infinity, repeatType: "loop" }}>⚛️</motion.div>;
+    if (techLower === "tailwindcss") return <FileCode className="w-4 h-4 text-cyan-400" />;
+    if (techLower === "css") return <Palette className="w-4 h-4 text-purple-400" />;
+    return <Code2 className="w-4 h-4" />;
+  };
 
   const settings2 = {
     dots: true,
@@ -65,10 +88,10 @@ const Portfolio = () => {
   };
 
   // Extract unique technologies from projects
-  const uniqueTechnologies = ["all", ...new Set([
+  const uniqueTechnologies = ["all", ...Array.from(new Set([
     ...portfolio.projects.map(p => p.cta1.toLowerCase()),
     ...portfolio.projects.map(p => p.cta2.toLowerCase())
-  ])];
+  ]))];
 
   const projectContainerVariants = {
     hidden: { opacity: 0 },
@@ -127,11 +150,12 @@ const Portfolio = () => {
           >
             <Button
               as="button"
+              swit={false}
               onClick={() => setActiveFilter(tech)}
               className={`px-3 py-1.5 rounded-full text-sm font-medium ${
                 activeFilter === tech
-                  ? "bg-lightdawn text-white"
-                  : "hover:bg-lightdawn/20"
+                  ? "dark:bg-lightdawn dark:text-white bg-title text-dawn"
+                  : "dark:hover:bg-lightdawn/20 hover:bg-title/70"
               }`}
             >
               {tech.charAt(0).toUpperCase() + tech.slice(1)}
@@ -140,20 +164,104 @@ const Portfolio = () => {
         ))}
       </div>
 
-      {/* Filter dropdown for mobile */}
-      <div className="sm:hidden mb-6">
-        <select 
-          value={activeFilter}
-          onChange={(e) => setActiveFilter(e.target.value)}
-          className="w-full p-2 rounded-md bg-lightdawn/10 text-lightdawn border-2 border-lightdawn/20 focus:border-lightdawn focus:outline-none"
-          aria-label="Filter projects by technology"
+      {/* Custom Dropdown for Mobile */}
+      <div className="sm:hidden mb-8 px-2" ref={dropdownRef}>
+        <motion.div
+          className="relative z-10"
+          initial={false}
+          animate={{ 
+            boxShadow: isDropdownOpen ? "0 10px 25px rgba(0, 0, 0, 0.1)" : "0 2px 5px rgba(0, 0, 0, 0.05)"
+          }}
         >
-          {uniqueTechnologies.map((tech, idx) => (
-            <option key={idx} value={tech}>
-              {tech.charAt(0).toUpperCase() + tech.slice(1)}
-            </option>
-          ))}
-        </select>
+          <motion.button
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className={`w-full p-3 rounded-lg flex items-center justify-between
+                      ${isDropdownOpen ? "rounded-b-none" : ""}
+                      dark:bg-lightdawn/10 bg-dawn/10 dark:text-lightdawn text-dawn 
+                      border-2 dark:border-lightdawn/30 border-dawn/40
+                      transition-all duration-300 cursor-pointer
+                      dark:hover:bg-lightdawn/20 hover:bg-dawn/20 dark:hover:border-lightdawn/50 hover:border-dawn/60`}
+            aria-expanded={isDropdownOpen}
+            aria-haspopup="listbox"
+            aria-labelledby="tech-filter-label"
+          >
+            <div className="flex items-center gap-2">
+              {activeFilter !== "all" && getTechIcon(activeFilter)}
+              <span className="font-medium capitalize">
+                {activeFilter === "all" ? "All Projects" : activeFilter}
+              </span>
+            </div>
+            <motion.div
+              animate={{ rotate: isDropdownOpen ? 180 : 0 }}
+              transition={{ duration: 0.3 }}
+              className="dark:text-lightdawn/80 text-dawn/80"
+            >
+              <ChevronDown className="h-5 w-5" />
+            </motion.div>
+          </motion.button>
+          
+          <AnimatePresence>
+            {isDropdownOpen && (
+              <motion.ul
+                className="absolute w-full mt-0 dark:bg-dawn/95 bg-white border-2 dark:border-lightdawn/30 border-dawn/40 border-t-0 rounded-b-lg overflow-hidden shadow-lg z-20"
+                role="listbox"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {uniqueTechnologies.map((tech, idx) => (
+                  <motion.li
+                    key={idx}
+                    className={`p-3 cursor-pointer flex items-center gap-2
+                               ${activeFilter === tech ? "dark:bg-lightdawn/20 bg-dawn/20 font-medium" : "dark:hover:bg-lightdawn/10 hover:bg-dawn/10"}
+                               dark:text-lightdawn/90 text-dawn/90
+                               transition-all duration-200 border-b last:border-b-0 dark:border-lightdawn/10 border-dawn/10`}
+                    onClick={() => {
+                      setActiveFilter(tech);
+                      setIsDropdownOpen(false);
+                    }}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ delay: idx * 0.05 }}
+                    role="option"
+                    aria-selected={activeFilter === tech}
+                    whileHover={{ x: 5 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    {tech !== "all" && getTechIcon(tech)}
+                    <span className="capitalize">{tech === "all" ? "All Projects" : tech}</span>
+                    {activeFilter === tech && (
+                      <motion.span
+                        className="ml-auto dark:text-lightdawn text-dawn"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: "spring", stiffness: 500, damping: 15 }}
+                      >
+                        ✓
+                      </motion.span>
+                    )}
+                  </motion.li>
+                ))}
+              </motion.ul>
+            )}
+          </AnimatePresence>
+        </motion.div>
+        
+        {/* Decorative elements */}
+        <div className="relative h-2 mt-1 mx-4 hidden sm:block">
+          <motion.div 
+            className="absolute w-2 h-2 rounded-full dark:bg-lightdawn bg-dawn left-0"
+            animate={{ x: [0, 100, 0] }}
+            transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+          />
+          <motion.div 
+            className="absolute w-2 h-2 rounded-full dark:bg-lightdawn/50 bg-dawn/50 right-0"
+            animate={{ x: [0, -100, 0] }}
+            transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 0.5 }}
+          />
+        </div>
       </div>
 
       {/* Mobile project cards with slider - FIXED: Removed AnimatePresence */}
@@ -162,7 +270,7 @@ const Portfolio = () => {
           {filteredProjects.map((project) => (
             <div key={project.id} className="px-2">
               <motion.div
-                className="border-2 border-lightdawn/50 even:bg-lightdawn/10 even:border-none rounded-lg p-4 h-[320px] mx-auto flex flex-col justify-between"
+                className="border-2 dark:border-lightdawn/50 border-title/80 dark:even:bg-lightdawn/10 even:bg-title/80 even:border-none rounded-lg p-4 h-[320px] mx-auto flex flex-col justify-between"
                 variants={projectItemVariants}
                 initial="hidden"
                 whileInView="visible"
@@ -170,10 +278,10 @@ const Portfolio = () => {
                 whileHover={{ y: -5, boxShadow: '0 10px 20px rgba(123, 74, 226, 0.2)' }}
               >
                 <div>
-                  <h2 className="text-title font-semibold mb-2 text-lg line-clamp-1">
+                  <h2 className="dark:text-title title:dawn font-semibold mb-2 text-lg line-clamp-1">
                     {project.title}
                   </h2>
-                  <p className="text-title/60 text-sm line-clamp-3 mb-3">
+                  <p className="dark:text-title/60 text-dawn/80 text-sm line-clamp-3 mb-3">
                     {project.descrption}
                   </p>
                   <div className="flex gap-2 mb-4">
@@ -191,12 +299,12 @@ const Portfolio = () => {
                     alt={project.title} 
                     className="object-cover w-full h-full"
                   />
-                  <div className="absolute inset-0 bg-dawn/80 backdrop-blur-sm flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  <div className="absolute inset-0 dark:bg-dawn/80 bg-lightdawn/60 backdrop-blur-sm flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-all duration-300">
                     <a
                       href={project.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-lightdawn px-4 py-2 rounded-full flex items-center gap-2 text-white hover:bg-lightdawn/80 transition-colors"
+                      className="dark:bg-lightdawn bg-dawn/70 hover:bg-dawn/90 px-4 py-2 rounded-full flex items-center gap-2 text-white dark:hover:bg-lightdawn/80 transition-colors"
                     >
                       Visit Site <ExternalLink size={16} />
                     </a>
@@ -220,16 +328,16 @@ const Portfolio = () => {
         {filteredProjects.map((project) => (
           <motion.div
             key={project.id}
-            className="border-2 border-lightdawn/50 even:bg-lightdawn/10 even:border-none rounded-lg p-4 h-[320px] flex flex-col justify-between"
+            className="border-2 dark:border-lightdawn/50 border-title/80 dark:even:bg-lightdawn/10 even:bg-title/80 even:border-none rounded-lg p-4 h-[320px] flex flex-col justify-between"
             variants={projectItemVariants}
             whileHover={{ y: -5, boxShadow: '0 10px 20px rgba(123, 74, 226, 0.2)' }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
             <div>
-              <h2 className="text-title font-semibold mb-2 text-lg truncate">
+              <h2 className="dark:text-title text-dawn font-semibold mb-2 text-lg truncate">
                 {project.title}
               </h2>
-              <p className="text-title/60 text-sm line-clamp-3 mb-3">
+              <p className="dark:text-title/60 text-dawn/80 text-sm line-clamp-3 mb-3">
                 {project.descrption}
               </p>
               <div className="flex gap-2 flex-wrap mb-4">
@@ -247,12 +355,12 @@ const Portfolio = () => {
                 alt={project.title} 
                 className="object-cover w-full h-full"
               />
-              <div className="absolute inset-0 bg-dawn/80 backdrop-blur-sm flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+              <div className="absolute inset-0 dark:bg-dawn/80 bg-lightdawn/60 backdrop-blur-sm flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-all duration-300">
                 <a
                   href={project.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-lightdawn px-4 py-2 rounded-full flex items-center gap-2 text-white hover:bg-lightdawn/80 transition-colors"
+                  className="dark:bg-lightdawn bg-dawn/70 hover:bg-dawn/90 px-4 py-2 rounded-full flex items-center gap-2 text-white dark:hover:bg-lightdawn/80 transition-colors"
                 >
                   Visit Site <ExternalLink size={16} />
                 </a>
@@ -267,7 +375,8 @@ const Portfolio = () => {
           as="a" 
           href="https://github.com/Trailblazer-dev" 
           target="_blank"
-          className="flex items-center gap-2 py-2 px-4 mt-4 hover:bg-lightdawn/20"
+          swit={false}
+          className="flex items-center gap-2 py-2 px-4 mt-4 dark:hover:bg-lightdawn/20 hover:bg-dawn/80 hover:text-title"
         >
           <Github size={18} />
           {portfolio.more}
