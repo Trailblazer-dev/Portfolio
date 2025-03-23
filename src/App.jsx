@@ -9,6 +9,7 @@ import { useState, useEffect, lazy, Suspense } from "react"
 import { ThemeProvider } from "./contexts/theme"
 import { heroSection } from "./constraints/constraint"
 import LoadingSpinner from "./components/LoadingSpinner"
+import NetworkStatus from './components/NetworkStatus'
 
 // Configure Tailwind colors
 import './index.css';
@@ -78,6 +79,7 @@ function App() {
           </Suspense>
         </main>
         <Footer />
+        <NetworkStatus />
       </div>
     </ThemeProvider>
   )
