@@ -29,6 +29,32 @@ export default defineConfig({
             type: 'image/png'
           }
         ]
+      },
+      workbox: {
+        // Make network requests with a network-first strategy
+        // This will try the network first, then fall back to cache
+        runtimeCaching: [{
+          urlPattern: /^https:\/\/.*\//,
+          handler: 'NetworkFirst',
+          options: {
+            cacheName: 'api-cache',
+            networkTimeoutSeconds: 5,
+            expiration: {
+              maxEntries: 50,
+              maxAgeSeconds: 60 * 60 * 24 // 1 day
+            },
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
+          }
+        }],
+        // Force update on page load
+        skipWaiting: true,
+        clientsClaim: true
+      },
+      devOptions: {
+        enabled: true,
+        type: 'module'
       }
     }),
     visualizer({
