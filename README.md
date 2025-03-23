@@ -1,8 +1,158 @@
-# React + Vite
+# Rich Kariuki - Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Portfolio Preview](./src/assets/portfolio-preview.png)
 
-Currently, two official plugins are available:
+[![React](https://img.shields.io/badge/React-19.0.0-blue.svg)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-6.1.0-646CFF.svg)](https://vitejs.dev/)
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.0.5-38B2AC.svg)](https://tailwindcss.com/)
+[![Framer Motion](https://img.shields.io/badge/Framer_Motion-11.0.3-ED4290.svg)](https://www.framer.com/motion/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+A modern, responsive portfolio website built with React, Framer Motion, and TailwindCSS, featuring dark mode, interactive animations, and project filtering.
+
+## 🔍 Preview
+
+You can view the live portfolio at: [portfolio.richkariuki.com](https://portfolio.richkariuki.com)
+
+## ✨ Features
+
+- **Responsive Design** - Optimized for mobile, tablet, and desktop devices
+- **Dark/Light Mode** - Theme toggle with persistent user preference storage
+- **Interactive UI** - Smooth animations and transitions using Framer Motion
+- **Project Filtering** - Filter projects by technology with intuitive controls
+- **Accessibility** - ARIA attributes, keyboard navigation, and screen reader support
+- **Performance Optimized** - Lazy loading, optimized animations, and efficient rendering
+- **SEO Ready** - Meta tags, sitemap.xml, and robots.txt included
+- **Analytics** - Google Analytics integration
+- **Contact Form** - Validated contact form with submission handling
+- **PWA Support** - Progressive Web App capabilities for offline usage
+
+## 🛠️ Technologies
+
+- [React](https://react.dev/) - Frontend framework
+- [TailwindCSS 4](https://tailwindcss.com/) - Styling
+- [Framer Motion](https://www.framer.com/motion/) - Animations
+- [Lucide Icons](https://lucide.dev/) - SVG icons
+- [React Slick](https://react-slick.neostack.com/) - Carousel components
+- [Vite](https://vitejs.dev/) - Build tool
+
+## 🚀 Getting Started
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/portfolio.git
+cd portfolio
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
+```bash
+npm run dev
+```
+
+4. Build for production:
+```bash
+npm run build
+```
+
+5. Preview the production build:
+```bash
+npm run preview
+```
+
+## 📝 Additional Scripts
+
+- **Image Optimization**: `npm run optimize-images`
+- **Bundle Analysis**: `npm run analyze`
+- **Linting**: `npm run lint`
+
+## 📁 Project Structure
+
+```
+/src
+├── assets/                      # Images, icons, and other static files
+│   ├── icons/                   # Icon images for UI elements
+│   ├── tools/                   # Dark mode tech stack icons
+│   ├── toolslighttheme/         # Light mode tech stack icons
+│   └── tools2lighttheme/        # Additional light mode tech icons
+├── components/                  # Reusable UI components
+│   ├── About.jsx                # About section component
+│   ├── Button.jsx               # Reusable button component
+│   ├── Button.d.ts              # TypeScript definitions for Button
+│   ├── Contact.jsx              # Contact section with email functionality
+│   ├── ContactForm.jsx          # Form with validation for contact
+│   ├── DarkModeBtn.jsx          # Theme toggle with animations
+│   ├── Footer.jsx               # Page footer component
+│   ├── Header.jsx               # Navigation with mobile menu
+│   ├── Hero.jsx                 # Hero section with animations
+│   ├── Analytics.jsx            # Google Analytics component
+│   ├── LoadingSpinner.jsx       # Loading state component
+│   ├── Portfolio.jsx            # Projects section with filtering
+│   └── Skills.jsx               # Skills showcase with tech icons
+├── contexts/                    # React context providers
+│   └── theme.js                 # Dark/light mode context provider
+├── constraints/                 # Data configuration
+│   └── constraint.js            # Content data for all sections
+├── App.jsx                      # Main application component
+├── main.jsx                     # Entry point
+├── index.css                    # Global styles and theme definitions
+└── types.d.ts                   # Global TypeScript declarations
+```
+
+## 🔧 Configuration
+
+You can customize all content in the portfolio by editing the data in `src/constraints/constraint.js`. This includes:
+
+- Personal information
+- Project details
+- Skills and technologies
+- Experience sections
+- Contact information
+
+## 📱 Responsive Design
+
+The portfolio is fully responsive with tailored experiences for:
+- Mobile devices (< 640px)
+- Tablets (640px - 1024px)
+- Desktops (> 1024px)
+
+## ♿ Accessibility
+
+The portfolio follows WCAG 2.1 guidelines:
+- Keyboard navigation
+- Screen reader compatibility
+- Skip-to-content link
+- ARIA attributes
+- Color contrast compliance
+
+## 🚀 Performance
+
+- Image optimization
+- Code splitting
+- Lazy loading
+- Bundle size optimization
+- Font display optimization
+- PWA capabilities
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 📬 Contact
+
+Rich Kariuki - richvictor830@gmail.com
+
+GitHub: [https://github.com/Trailblazer-dev](https://github.com/Trailblazer-dev)

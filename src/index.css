@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
 
-
-
 @import "tailwindcss" important;
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme{
     --font-Rale: "Raleway", serif;
@@ -12,20 +12,159 @@
     --color-title:#FFFFFF;
     --breakpoint-tablet:55rem;
     --breakpoint-xs:30rem;
+    
+    /* Enhanced light theme colors with refined color palette */
+    --color-light-accent: #FF7D54;
+    --color-light-accent-50: #FFEDE7;
+    --color-light-accent-100: #FFDBD0;
+    --color-light-accent-200: #FFB8A1;
+    --color-light-accent-300: #FF9473;
+    --color-light-accent-400: #FF7D54;
+    --color-light-accent-500: #FF6535;
+    --color-light-accent-600: #FF4B11;
+    --color-light-accent-700: #EC3500;
+    --color-light-accent-800: #C82E00;
+    --color-light-accent-900: #A32500;
+    
+    --color-light-secondary: #4ECDC4;
+    --color-light-secondary-50: #DBEFEE;
+    --color-light-secondary-100: #C7E8E6;
+    --color-light-secondary-200: #9FDCD7;
+    --color-light-secondary-300: #77D0C8;
+    --color-light-secondary-400: #4ECDC4;
+    --color-light-secondary-500: #33B9AF;
+    --color-light-secondary-600: #2B9A92;
+    --color-light-secondary-700: #237B74;
+    --color-light-secondary-800: #1A5B56;
+    --color-light-secondary-900: #123C39;
+    
+    --color-light-tertiary: #FF9F1C;
+    --color-light-tertiary-50: #FFF1DE;
+    --color-light-tertiary-100: #FFE7C2;
+    --color-light-tertiary-200: #FFD28B;
+    --color-light-tertiary-300: #FFBE54;
+    --color-light-tertiary-400: #FF9F1C;
+    --color-light-tertiary-500: #F88C00;
+    --color-light-tertiary-600: #D07600;
+    --color-light-tertiary-700: #A85F00;
+    --color-light-tertiary-800: #804800;
+    --color-light-tertiary-900: #573100;
+    
+    /* Refined background colors for better contrast */
+    --color-light-background: #F9FAFC;
+    --color-light-background-alt: #F0F4F8;
+    --color-light-card: #FFFFFF;
+    --color-light-text: #2D3748;
+    --color-light-text-muted: #64748B;
+    
+    /* New shadow variables for consistent elevation */
+    --shadow-light-sm: 0 2px 4px rgba(255, 125, 84, 0.05);
+    --shadow-light-md: 0 4px 8px rgba(255, 125, 84, 0.08), 0 2px 4px rgba(255, 125, 84, 0.04);
+    --shadow-light-lg: 0 10px 20px rgba(255, 125, 84, 0.12), 0 3px 6px rgba(255, 125, 84, 0.08);
+    --shadow-light-xl: 0 20px 25px rgba(255, 125, 84, 0.15), 0 5px 10px rgba(255, 125, 84, 0.1);
+
+    /* Dark theme colors - reorganized to match light theme naming pattern */
+    --color-dark-accent: #7B4AE2; /* Same as lightdawn - primary accent */
+    --color-dark-secondary: #6C63FF; /* Secondary accent color */
+    --color-dark-tertiary: #9D8DF1; /* Tertiary accent color */
+    --color-dark-background: #090E16; /* Same as dawn - main background */
+    --color-dark-background-alt: #121826; /* Alternative background */
+    --color-dark-card: #1A1E2E; /* Card background */
+    --color-dark-text: #FFFFFF; /* Main text color */
+    --color-dark-text-muted: rgba(255, 255, 255, 0.7); /* Muted text */
+    
+    /* Shadow variables for dark theme to match light theme format */
+    --shadow-dark-sm: 0 2px 4px rgba(123, 74, 226, 0.1);
+    --shadow-dark-md: 0 4px 8px rgba(123, 74, 226, 0.15), 0 2px 4px rgba(123, 74, 226, 0.1);
+    --shadow-dark-lg: 0 10px 20px rgba(123, 74, 226, 0.2), 0 3px 6px rgba(123, 74, 226, 0.1);
+    --shadow-dark-xl: 0 20px 25px rgba(123, 74, 226, 0.25), 0 5px 10px rgba(123, 74, 226, 0.15);
 }
+
+/* Base theme settings */
 body{
-    background-color: #090E16;
-    @apply font-Rale;
+    @apply font-Rale dark:bg-dawn bg-light-background text-light-text dark:text-white transition-colors duration-500;
+    scroll-behavior: smooth;
+}
+
+/* Scroll styling */
+::-webkit-scrollbar {
+    @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+    @apply dark:bg-dawn/50 bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply dark:bg-lightdawn/30 bg-light-accent/40 rounded-full transition-colors duration-300;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    @apply dark:bg-lightdawn/50 bg-light-accent/60;
+}
+
+/* Focus outline - Better accessibility */
+:focus-visible {
+    @apply outline-none ring-2 dark:ring-lightdawn/70 ring-light-accent/70 ring-offset-1 ring-offset-transparent;
+}
+
+/* Selection styling */
+::selection {
+    @apply dark:bg-lightdawn/30 bg-light-accent/30 dark:text-white text-light-text;
+}
+
+/* Custom styling for select dropdown */
+select {
+    @apply transition-all duration-300;
+}
+
+select:focus {
+    @apply ring-2 dark:ring-lightdawn/40 ring-dawn/40;
+}
+
+/* Customize option appearance for the dropdown */
+option {
+    @apply dark:bg-dawn/90 bg-white p-2 my-1;
+}
+
+/* Make dropdown options trigger global styling */
+select option:hover,
+select option:focus,
+select option:active,
+select option:checked {
+    @apply dark:bg-lightdawn/20 bg-dawn/10;
 }
 
 @layer components{
     .contain{
-        @apply mx-4 md:mx-10 xl:mx-16;
+        @apply mx-4 md:mx-10 xl:mx-16 lg:max-w-7xl ;
     }
     .head{
-        @apply text-title font-bold text-2xl lg:text-3xl xl:text-4xl;
+        @apply dark:text-title text-light-text font-bold text-2xl lg:text-3xl xl:text-4xl;
+    }
+    
+    .line-clamp-1 {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+    }
+    
+    .line-clamp-2 {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+    }
+    
+    .line-clamp-3 {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
     }
 }
+
 /* portfolio components on top of project */
 .top .slick-list .slick-track{
     @apply flex flex-row gap-2 tablet:gap-4 lg:gap-6;
@@ -34,10 +173,12 @@ body{
 .slick-slider > button{
     @apply hidden;
 }
+
 /* portfolio components projects */
 .bt .slick-list .slick-track,.st .slick-list .slick-track{
-    @apply  gap-2 flex;
+    @apply gap-2 flex py-4;
 }
+
 .bt .slick-slider,.st .slick-slider{
     @apply w-[300px] xs:w-[400px] sm:w-[600px] flex mx-auto justify-self-center;
 }
@@ -45,12 +186,15 @@ body{
 .bt .slick-slider > button{
     @apply w-[44px] ;
 }
+
 .bt .slick-slide {
     @apply w-[260px] sm:w-[600px];
 }
+
 .bt .slick-prev:before, .bt .slick-next:before{
-    @apply flex  text-[32px];
+    @apply flex text-[32px];
 }
+
 /* skills components */
 .st .slick-slide {
     @apply w-[32px];
@@ -61,17 +205,406 @@ body{
 }
 
 .slick-dots li button:before{
-    @apply text-lightdawn;
-}
-/* 
-.slick-slider{
-    @apply w-[200px] sm:w-[400px]  flex;
-}
-.slider-container{
-    @apply w-[250px];
+    @apply dark:text-lightdawn text-dawn;
 }
 
+/* Add new hover animation utilities */
+@layer utilities {
+    .hover-icon-pulse {
+        @apply transition-all duration-300;
+    }
+    
+    .group:hover .hover-icon-pulse,
+    .hover-icon-pulse:hover {
+        @apply scale-110;
+        filter: drop-shadow(0 0 3px theme('colors.lightdawn.DEFAULT', #7B4AE2));
+    }
+    
+    /* Light theme glow effect for icons */
+    .light .group:hover .hover-icon-pulse,
+    .light .hover-icon-pulse:hover {
+        filter: drop-shadow(0 0 3px theme('colors.light-accent.DEFAULT', #FF7D54));
+    }
+    
+    .hover-icon-rotate {
+        @apply transition-all duration-300;
+    }
+    
+    .group:hover .hover-icon-rotate,
+    .hover-icon-rotate:hover {
+        @apply rotate-6;
+    }
+    
+    .hover-icon-bounce {
+        @apply transition-all duration-300;
+    }
+    
+    .group:hover .hover-icon-bounce,
+    .hover-icon-bounce:hover {
+        @apply translate-y-[-4px];
+    }
 
-.slick-slide{
-    @apply w-[180px] sm:w-[350px];
-} */
+    .dropdown-shadow {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-track {
+        @apply dark:bg-dawn/30 bg-gray-100;
+        border-radius: 10px;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        @apply dark:bg-lightdawn/50 bg-dawn/50;
+        border-radius: 10px;
+    }
+    
+    /* New light theme utility classes */
+    .light-card-shadow {
+        box-shadow: 0 10px 25px rgba(255, 125, 84, 0.15);
+    }
+    
+    .light-gradient-bg {
+        background: linear-gradient(135deg, #FF7D54 0%, #4ECDC4 100%);
+    }
+    
+    .light-accent-glow {
+        filter: drop-shadow(0 0 8px rgba(255, 125, 84, 0.5));
+    }
+
+    /* Enhanced light theme utilities */
+    .light-shadow-sm {
+        box-shadow: var(--shadow-light-sm);
+    }
+    
+    .light-shadow-md {
+        box-shadow: var(--shadow-light-md);
+    }
+    
+    .light-shadow-lg {
+        box-shadow: var(--shadow-light-lg);
+    }
+    
+    .light-shadow-xl {
+        box-shadow: var(--shadow-light-xl);
+    }
+    
+    .light-gradient-primary {
+        background: linear-gradient(135deg, #FF7D54 0%, #FF9F1C 100%);
+    }
+    
+    .light-gradient-secondary {
+        background: linear-gradient(135deg, #4ECDC4 0%, #5CCEDF 100%);
+    }
+    
+    .light-gradient-accent {
+        background: linear-gradient(135deg, #FF7D54 0%, #FF6535 100%);
+    }
+    
+    .light-glass {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .light-card {
+        @apply bg-white rounded-lg border border-light-accent/10 shadow-md hover:shadow-lg;
+        transition: all 300ms;
+    }
+    
+    .light-button {
+        @apply bg-gradient-to-r from-light-accent to-light-tertiary text-white rounded-md px-4 py-2 hover:from-light-accent-600 hover:to-light-tertiary-600 transition-all duration-300 shadow-sm hover:shadow-md;
+    }
+    
+    .light-input {
+        @apply bg-light-background-alt border border-light-accent/20 rounded-md px-4 py-2 focus:border-light-accent focus:ring-1 focus:ring-light-accent/30 outline-none transition-all duration-200;
+    }
+    
+    .light-icon-container {
+        @apply bg-white p-2 rounded-lg border border-light-accent/10 shadow-sm hover:shadow-md hover:border-light-accent/30 transition-all duration-300;
+    }
+
+    /* Add new dark theme utility classes to match light theme ones */
+    .dark-shadow-sm {
+        box-shadow: var(--shadow-dark-sm);
+    }
+
+    .dark-shadow-md {
+        box-shadow: var(--shadow-dark-md);
+    }
+
+    .dark-shadow-lg {
+        box-shadow: var(--shadow-dark-lg);
+    }
+
+    .dark-shadow-xl {
+        box-shadow: var(--shadow-dark-xl);
+    }
+
+    .dark-gradient-primary {
+        background: linear-gradient(135deg, #7B4AE2 0%, #6C63FF 100%);
+    }
+
+    .dark-gradient-secondary {
+        background: linear-gradient(135deg, #6C63FF 0%, #9D8DF1 100%);
+    }
+
+    .dark-gradient-accent {
+        background: linear-gradient(135deg, #7B4AE2 0%, #9876F3 100%);
+    }
+
+    .dark-glass {
+        background: rgba(26, 30, 46, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(123, 74, 226, 0.2);
+    }
+
+    .dark-card {
+        @apply bg-dark-card rounded-lg border border-lightdawn/10 shadow-md hover:shadow-lg;
+        transition: all 300ms;
+    }
+}
+
+/* Add new animations for the portfolio filter dropdown */
+@keyframes pulse-border {
+  0%, 100% {
+    border-color: theme('colors.lightdawn.DEFAULT', #7B4AE2);
+    opacity: 0.3;
+  }
+  50% {
+    border-color: theme('colors.lightdawn.DEFAULT', #7B4AE2);
+    opacity: 0.8;
+  }
+}
+
+.animate-pulse-border {
+  animation: pulse-border 2s ease-in-out infinite;
+}
+
+/* Add direct CSS shadow classes outside utilities */
+.shadow-light-sm {
+    box-shadow: var(--shadow-light-sm);
+}
+
+.shadow-light-md {
+    box-shadow: var(--shadow-light-md);
+}
+
+.shadow-light-lg {
+    box-shadow: var(--shadow-light-lg);
+}
+
+.shadow-light-xl {
+    box-shadow: var(--shadow-light-xl);
+}
+
+/* Make sure light-glass class is properly defined */
+.light-glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Ensure these aren't duplicated in @layer utilities as well */
+
+.shadow-light-sm {
+    box-shadow: var(--shadow-light-sm);
+}
+
+.shadow-light-md {
+    box-shadow: var(--shadow-light-md);
+}
+
+.shadow-light-lg {
+    box-shadow: var(--shadow-light-lg);
+}
+
+.shadow-light-xl {
+    box-shadow: var(--shadow-light-xl);
+}
+
+.light-glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.light-card {
+    @apply bg-white rounded-lg border border-light-accent/10 shadow-md hover:shadow-lg;
+    transition: all 300ms;
+}
+
+.light-gradient-primary {
+    background: linear-gradient(135deg, #FF7D54 0%, #FF9F1C 100%);
+}
+
+.light-gradient-secondary {
+    background: linear-gradient(135deg, #4ECDC4 0%, #5CCEDF 100%);
+}
+
+/* Add these new utility classes at the end of the file */
+.dark-logo-container {
+  background: linear-gradient(145deg, rgba(26, 30, 46, 0.7), rgba(26, 30, 46, 0.4));
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05), 
+              0 1px 8px rgba(123, 74, 226, 0.15);
+  border: 1px solid rgba(123, 74, 226, 0.2);
+}
+
+.light-logo-container {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5), 
+              0 1px 8px rgba(255, 125, 84, 0.15);
+  border: 1px solid rgba(255, 125, 84, 0.2);
+}
+
+.dark-logo-glow:hover .dark-logo-container {
+  box-shadow: 0 0 15px rgba(123, 74, 226, 0.3);
+  border-color: rgba(123, 74, 226, 0.5);
+}
+
+.light-logo-glow:hover .light-logo-container {
+  box-shadow: 0 0 15px rgba(255, 125, 84, 0.3);
+  border-color: rgba(255, 125, 84, 0.5);
+}
+
+/* Add these utilities at the end to manage potential overflow issues */
+.text-ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Additional z-index management utility classes */
+.z-header {
+  z-index: 50; /* Main header */
+}
+
+.z-header-backdrop {
+  z-index: 40; /* Behind the mobile menu but above content */
+}
+
+.z-header-menu {
+  z-index: 50; /* Same as header to ensure proper layering */
+}
+
+.z-header-dropdown {
+  z-index: 60; /* Above header for dropdowns */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Add these at the end of your file to enhance text visibility */
+
+/* Ensure navigation text is clearly visible in light theme */
+.light .text-light-text/70 {
+  color: rgba(45, 55, 72, 0.9); /* Darker shade for better contrast */
+}
+
+/* Fix any potential text/background contrast issues */
+.light a:hover,
+.light button:hover {
+  text-shadow: 0 0 0.5px rgba(0, 0, 0, 0.2); /* Subtle text shadow for better visibility */
+}
+
+/* Ensure proper sizing constraints for the header elements */
+@media screen and (min-width: 768px) and (max-width: 1280px) {
+  .header-container {
+    gap: 0.5rem;
+  }
+  
+  .nav-item {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  .toggle-container {
+    width: auto;
+    min-width: 2.5rem;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+/* Add these improved header-specific utilities at the end of the file */
+.header-container {
+  position: relative;
+  width: 100%;
+}
+
+/* Enhanced styling for nav items to ensure proper spacing and visibility */
+.nav-item {
+  position: relative;
+  outline: none;
+  display: flex;
+  align-items: center;
+}
+
+/* Medium screens optimization */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .nav-item {
+    font-size: 0.875rem;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+  
+  .toggle-container {
+    min-width: 42px;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+/* Ensure text in light theme has proper contrast */
+.light .text-light-text {
+  color: rgba(45, 55, 72, 1); /* Full opacity for better contrast */
+}
+
+/* Improve active state visibility in light theme */
+.light a[aria-current="page"] {
+  font-weight: 600;
+  color: var(--color-light-accent-600);
+}
+
+/* Improve focus styles for accessibility */
+.nav-item:focus-visible {
+  outline: 2px solid transparent;
+  box-shadow: 0 0 0 2px rgba(255, 125, 84, 0.5);
+}
+
+.dark .nav-item:focus-visible {
+  box-shadow: 0 0 0 2px rgba(123, 74, 226, 0.5);
+}
+
+/* Add these specific toggle button fixes at the end of your file */
+.toggle-button-container {
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Additional toggle button styles */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .toggle-container {
+    min-width: 3rem;
+  }
+}
+
+/* Ensure icons are centered properly */
+.lucide {
+  display: inline-flex;
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
