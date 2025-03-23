@@ -5,11 +5,11 @@ import Header from "./components/Header"
 import Hero from "./components/Hero"
 import Portfolio from "./components/Portfolio"
 import Skills from "./components/Skills"
-import { useState, useEffect, lazy, Suspense } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { ThemeProvider } from "./contexts/theme"
 import { heroSection } from "./constraints/constraint"
 import LoadingSpinner from "./components/LoadingSpinner"
-import NetworkStatus from './components/NetworkStatus'
+import ErrorBoundary from "./components/ErrorBoundary"
 
 // Configure Tailwind colors
 import './index.css';
@@ -67,20 +67,21 @@ function App() {
 
   return (
     <ThemeProvider value={{ darkMode, toggleDarkMode }}>
-      <div className={darkMode ? "" : "bg-light-background"}>
-        <Header />
-        <main id="main-content">
-          <Suspense fallback={<LoadingSpinner />}>
-            <Hero />
-            <About />
-            <Portfolio />
-            <Skills />
-            <Contact />
-          </Suspense>
-        </main>
-        <Footer />
-        <NetworkStatus />
-      </div>
+      <ErrorBoundary>
+        <div className={darkMode ? "" : "bg-light-background"}>
+          <Header />
+          <main id="main-content">
+            <Suspense fallback={<LoadingSpinner />}>
+              <Hero />
+              <About />
+              <Portfolio />
+              <Skills />
+              <Contact />
+            </Suspense>
+          </main>
+          <Footer />
+        </div>
+      </ErrorBoundary>
     </ThemeProvider>
   )
 }

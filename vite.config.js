@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { VitePWA } from 'vite-plugin-pwa';
 import { visualizer } from 'rollup-plugin-visualizer';
 import dynamicImport from 'vite-plugin-dynamic-import';
 
@@ -8,55 +7,7 @@ export default defineConfig({
   plugins: [
     react(),
     dynamicImport(),
-    VitePWA({
-      registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
-      manifest: {
-        name: 'Rich Kariuki Portfolio',
-        short_name: 'RichDev',
-        description: 'Frontend Developer and UI Designer Portfolio',
-        theme_color: '#7B4AE2',
-        background_color: '#090E16',
-        icons: [
-          {
-            src: 'pwa-192x192.png',
-            sizes: '192x192',
-            type: 'image/png'
-          },
-          {
-            src: 'pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png'
-          }
-        ]
-      },
-      workbox: {
-        // Make network requests with a network-first strategy
-        // This will try the network first, then fall back to cache
-        runtimeCaching: [{
-          urlPattern: /^https:\/\/.*\//,
-          handler: 'NetworkFirst',
-          options: {
-            cacheName: 'api-cache',
-            networkTimeoutSeconds: 5,
-            expiration: {
-              maxEntries: 50,
-              maxAgeSeconds: 60 * 60 * 24 // 1 day
-            },
-            cacheableResponse: {
-              statuses: [0, 200]
-            }
-          }
-        }],
-        // Force update on page load
-        skipWaiting: true,
-        clientsClaim: true
-      },
-      devOptions: {
-        enabled: true,
-        type: 'module'
-      }
-    }),
+    // PWA plugin removed
     visualizer({
       open: false,
       gzipSize: true,

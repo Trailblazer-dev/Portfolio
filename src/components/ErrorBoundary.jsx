@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { forceRefresh } from '../utils/serviceWorkerManager';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -36,16 +35,10 @@ class ErrorBoundary extends React.Component {
             </div>
           </details>
           <button
-            className="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors mr-2"
+            className="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors"
             onClick={() => window.location.reload()}
           >
             Reload Page
-          </button>
-          <button
-            className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors"
-            onClick={forceRefresh}
-          >
-            Force Clear Cache & Reload
           </button>
         </div>
       );
