@@ -230,7 +230,7 @@ const Hero = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <a href="/CV.pdf" download="CV.pdf">
+            <a href="/Richs's_CV.pdf" download="CV.pdf">
               <Button 
                 className={`flex gap-1 sm:gap-2 shadow-md 
                 ${darkMode ? "shadow-lightdawn/20" : "shadow-light-accent/20"}
